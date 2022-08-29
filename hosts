@@ -1,0 +1,8 @@
+### BEGIN HOSTS
+vm1 ansible_port=17122
+### END HOSTS
+
+[all:vars]
+ansible_host=193.40.156.67
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/home/ssaart/.ssh/id_rsa
