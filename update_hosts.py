@@ -52,7 +52,8 @@ def update_ssh_config():
     Hostname {HOST_IP}
     Port {vm['port']}
     User {vm['username']}
-    ProxyCommand sh -c "python /home/ssaart/Documents/TTU/ica0002/update_hosts.py; /usr/bin/nc %h %p"
+    StrictHostKeyChecking no
+    ProxyCommand sh -c "cd /home/ssaart/Documents/TTU/ica0002; python update_hosts.py; /usr/bin/nc %h %p"
     IdentityFile {SSH_KEY}""" for i, vm in enumerate(vm_data)]
 
     if "### BEGIN ICA0002" not in old_content:
