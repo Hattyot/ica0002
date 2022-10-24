@@ -3,7 +3,21 @@
     name: nginx
 
 - name: Replace default nginx page
-  ansible.builtin.template:
+  template:
     src: index.html
     dest: /var/www/html/index.html
     mode: 0444
+
+- name: Set nginx conf
+  template:
+    lstrip_blocks: yes
+    src: default
+    dest: /etc/nginx/sites-enabled/default
+  notify:
+    - Restart nginx on config change
+
+- name: Start and enable nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes

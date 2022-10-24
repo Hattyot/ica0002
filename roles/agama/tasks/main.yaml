@@ -1,0 +1,24 @@
+- name: Create system user 'agama'
+  user:
+    name: agama
+    system: yes
+    create_home: yes
+    state: present
+
+- name: Create directory /opt/agama
+  file:
+    path: /opt/agama
+    state: directory
+    owner: agama
+
+- name: Install agama dependencies
+  apt:
+    name:
+      - python3
+      - python3-flask-sqlalchemy
+    state: latest
+
+- name: Install agama
+  get_url:
+    url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py
+    dest: /opt/agama

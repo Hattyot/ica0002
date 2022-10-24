@@ -1,0 +1,4 @@
+- name: Restart nginx on config change
+  service:
+    name: nginx
+    state: restarted

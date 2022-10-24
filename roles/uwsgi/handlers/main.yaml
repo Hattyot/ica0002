@@ -1,0 +1,4 @@
+- name: Restart uwsgi on config change
+  service:
+    name: uwsgi
+    state: restarted

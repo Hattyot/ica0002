@@ -2,11 +2,13 @@
   user:
     name: juri
     create_home: yes
+    state: present
 
 - name: Add new user 'roman'
   user:
     name: roman
     create_home: yes
+    state: present
 
 - name: Import authorized keys from github for user 'juri'
   authorized_key:
