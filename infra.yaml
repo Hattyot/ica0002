@@ -5,6 +5,12 @@
     roles:
       - init
 
+  - name: Database Server
+    hosts: db_servers
+    become: yes
+    roles:
+      - mysql
+
   - name: Web server
     hosts: web_servers
     become: yes

@@ -1,0 +1,33 @@
+- name: Install mysql-server
+  apt:
+    name: mysql-server
+    state: latest
+
+- name: Start and enable service 'mysql'
+  ansible.builtin.service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: override conf
+  template:
+    src: mysql.cnf
+    dest: /etc/mysql/mysql.conf.d/override.cnf
+  notify:
+    - Restart mysql on config change
+
+- name: create MySQL database 'agama'
+  become: yes
+  community.mysql.mysql_db:
+    name: "{{ mysql_database }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+- name: create MySQL user 'agama'
+  community.mysql.mysql_user:
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    host: "%"
+    priv: "{{ mysql_database }}.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
