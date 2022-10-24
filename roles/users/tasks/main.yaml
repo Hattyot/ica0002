@@ -1,0 +1,21 @@
+- name: Add new user 'juri'
+  user:
+    name: juri
+    create_home: yes
+
+- name: Add new user 'roman'
+  user:
+    name: roman
+    create_home: yes
+
+- name: Import authorized keys from github for user 'juri'
+  authorized_key:
+    user: juri
+    state: present
+    key: https://github.com/hudolejev.keys
+
+- name: Import authorized keys from github for user 'roman'
+  authorized_key:
+    user: roman
+    state: present
+    key: https://github.com/romankuchin.keys

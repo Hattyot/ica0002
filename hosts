@@ -1,6 +1,9 @@
 ### BEGIN HOSTS
-vm1 ansible_port=17122
+vm1 ansible_port=1622
 ### END HOSTS
+
+[web_servers]
+vm1
 
 [all:vars]
 ansible_host=193.40.156.67

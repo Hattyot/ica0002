@@ -1,0 +1,9 @@
+- name: install nginx
+  apt:
+    name: nginx
+
+- name: Replace default nginx page
+  ansible.builtin.template:
+    src: index.html
+    dest: /var/www/html/index.html
+    mode: 0444
