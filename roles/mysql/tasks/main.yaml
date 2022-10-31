@@ -1,6 +1,8 @@
-- name: Install mysql-server
+- name: Install mysql-server and python-mysqldb
   apt:
-    name: mysql-server
+    name:
+      - mysql-server
+      - python3-pymysql
     state: latest
 
 - name: Start and enable service 'mysql'
@@ -21,7 +23,6 @@
   community.mysql.mysql_db:
     name: "{{ mysql_database }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-
 
 - name: create MySQL user 'agama'
   community.mysql.mysql_user:

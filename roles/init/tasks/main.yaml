@@ -1,3 +1,21 @@
 - name: Update APT cache
   apt:
     cache_valid_time: 86400
+
+
+- name: get current hostname
+  shell:
+    cmd: hostname
+  register: hostname
+  changed_when: false
+
+- name: set hostname when current one is not correct
+  shell:
+    cmd: "hostnamectl set-hostname hattyot-vm-{{ inventory_hostname[-1] }}"
+  when: "'hattyot-vm-{{ inventory_hostname[-1] }}' != hostname.stdout"
+
+- name: add hostname to /etc/hosts
+  become: true
+  blockinfile:
+    path: /etc/hosts
+    block: "127.0.0.1 hattyot-vm-{{ inventory_hostname[-1] }}"

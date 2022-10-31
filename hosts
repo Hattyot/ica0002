@@ -1,6 +1,6 @@
 ### BEGIN HOSTS
-vm1 ansible_port=1622
-vm2 ansible_port=27922
+vm1 ansible_port=2022
+vm2 ansible_port=45422
 ### END HOSTS
 
 [web_servers]
@@ -9,7 +9,12 @@ vm1
 [db_servers]
 vm2
 
+[dns_servers]
+vm1
+vm2
+
 [all:vars]
 ansible_host=193.40.156.67
 ansible_user=ubuntu
 ansible_ssh_private_key_file=/home/ssaart/.ssh/id_rsa
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

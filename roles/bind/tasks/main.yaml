@@ -1,0 +1,48 @@
+- name: Install bind9 and dnspython
+  apt:
+    name: bind9
+
+- name: get old domain_name
+  shell:
+    cmd: "named-checkconf -p | grep zone | cut -d '\"' -f2 | grep -v in-addr | head -1"
+  failed_when: false
+  changed_when: "old_domain_name.stdout != '{{ domain_name }}'"
+  register: old_domain_name
+  notify: restart named
+  no_log: true
+
+- name: delete old masters
+  file:
+    state: absent
+    path: "/var/cache/bind/db.{{ item }}"
+  loop:
+    - "{{ domain_name }}"
+    - "{{ old_domain_name.stdout }}"
+  when: old_domain_name.changed
+  no_log: true
+
+- name: copy over config
+  template:
+    src: named.conf.options
+    dest: /etc/bind/named.conf.options
+  notify: restart bind9
+  register: config
+  no_log: true
+
+- name: copy over zone config
+  template:
+    src: named.conf.local
+    dest: /etc/bind/named.conf.local
+  notify: restart bind9
+
+- name: Add masters bind9 db
+  ansible.builtin.template:
+    src: "master.db"
+    dest: "/var/cache/bind/db.{{ domain_name }}"
+  notify: rndc reload
+
+- name: start enable bind9
+  service:
+    name: bind9
+    state: started
+    enabled: yes

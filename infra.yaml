@@ -18,3 +18,11 @@
      - agama
      - uwsgi
      - nginx
+
+  - name: DNS servers
+    hosts: dns_servers
+    become: yes
+    roles:
+      - bind
+      - dns
+    tags: dns

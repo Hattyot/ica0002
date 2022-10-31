@@ -1,0 +1,28 @@
+
+acl "acl_trusted_clients" {
+    {% for allowed in dns_allowed %}
+    {{ allowed }};
+    {% endfor %}
+};
+
+options {
+	directory "/var/cache/bind";
+	allow-query {
+	    acl_trusted_clients;
+	};
+	forwarders {
+	    {% for forwarder in dns_forwarders %}
+	    {{ forwarder }};
+	    {% endfor %}
+	};
+};
+
+key "transfer.key" {
+	algorithm hmac-sha256;
+	secret "{{ dns_transfer_key }}";
+};
+
+key "update.key" {
+	algorithm hmac-sha256;
+	secret "{{ dns_update_key }}";
+};
