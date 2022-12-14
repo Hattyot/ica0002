@@ -1,3 +1,6 @@
+domain_name: sillyhat.io
+
+
 agama_port: 5000
 
 mysql_host: vm2.sillyhat.io

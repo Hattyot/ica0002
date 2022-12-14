@@ -9,8 +9,6 @@ dns_allowed:
   - 192.168.42.0/24
   - 127.0.0.0/8
 
-domain_name: sillyhat.io
-
 dns_transfer_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           38373265353532633830333138663261353463633365643332326632373863373833373466616131
