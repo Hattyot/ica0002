@@ -5,6 +5,7 @@
     roles:
       - init
       - node_exporter
+      - rsyslog
     tags: init
 
   - name: nginx
@@ -47,10 +48,26 @@
       - prometheus
     tags: prometheus
 
+  - name: influxdb
+    hosts: influxdb
+    become: yes
+    roles:
+      - telegraf
+      - influxdb
+    tags: influxdb
+
   - name: grafana
     hosts: grafana
     become: yes
     roles:
       - grafana
     tags: grafana
+
+  - name: pinger
+    hosts: pinger
+    become: yes
+    roles:
+      - pinger
+    tags: pinger
+
 

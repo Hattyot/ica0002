@@ -1,0 +1,27 @@
+- name: Install influxdb, influxdb-client and python3-influxdb
+  apt:
+    name:
+      - influxdb
+      - influxdb-client
+      - python3-influxdb
+    state: present
+
+- name: Create latency database
+  influxdb_database:
+      database_name: "latency"
+
+- name: Create telegraf database
+  influxdb_database:
+      database_name: "telegraf"
+
+- name: copy over influxdb conf
+  template:
+    src: influxdb.conf
+    dest: /etc/influxdb/influxdb.conf
+  notify: restart influxdb
+
+- name: start enable influxd
+  service:
+    name: influxdb
+    state: started
+    enabled: yes

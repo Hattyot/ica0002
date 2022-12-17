@@ -1,0 +1,11 @@
+[Unit]
+Description=influxdb stats exporter service
+After=network-online.target
+
+[Service]
+User=prometheus
+Environment="INFLUX_URL=http://localhost:{{ influxdb_port }}"
+ExecStart=/usr/local/bin/influx_stats_exporter --web.listen-address ":{{ influxdb_metrics_port }}"
+
+[Install]
+WantedBy=multi-user.target

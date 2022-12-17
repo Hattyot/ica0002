@@ -1,0 +1,44 @@
+- name: install fping
+  apt:
+    name: fping
+    state: present
+
+- name: create pinger user
+  user:
+    name: pinger
+
+- name: copy over pinger script file
+  template:
+    src: pinger.sh
+    dest: /usr/local/bin/pinger
+    mode: +x
+    owner: pinger
+  notify: Restart pinger service
+
+- name: ensure /etc/pinger folder exists
+  file:
+    path: /etc/pinger
+    state: directory
+    owner: pinger
+
+- name: copy over pinger conf
+  template:
+    src: pinger.conf
+    dest: /etc/pinger/pinger.conf
+    owner: pinger
+  notify: Restart pinger service
+
+- name: Add pinger service
+  template:
+    src: pinger.service
+    dest: /etc/systemd/system/pinger.service
+    owner: pinger
+  notify: Restart pinger service
+  register: pinger_service
+
+- name: start enable pinger service
+  systemd:
+    name: pinger
+    state: started
+    enabled: yes
+    daemon_reload: yes

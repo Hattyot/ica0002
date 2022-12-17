@@ -1,0 +1,4 @@
+- name: restart influxdb stats exporter
+  service:
+    name: prometheus_influxdb_stats_exporter
+    state: restarted

@@ -76,6 +76,12 @@ server {
     }
     {% endif %}
 
+    {% if inventory_hostname in groups['influxdb'] %}
+    location /influxdb-metrics {
+        proxy_pass http://localhost:{{ influxdb_metrics_port }}/metrics;
+    }
+    {% endif %}
+
 }
 
 server {

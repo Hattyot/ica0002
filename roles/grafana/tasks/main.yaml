@@ -46,10 +46,16 @@
     path: /var/lib/grafana/dashboards/
     state: directory
 
-- name: copy over dashboard json
+- name: copy over main dashboard json
   copy:
     src: main.json
     dest: /var/lib/grafana/dashboards/prometheus.json
+  notify: restart grafana-server
+
+- name: copy over syslog dashboard json
+  copy:
+    src: logs.json
+    dest: /var/lib/grafana/dashboards/logs.json
   notify: restart grafana-server
 
 - name: add dashboard provisioning

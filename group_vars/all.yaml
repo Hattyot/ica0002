@@ -6,6 +6,9 @@ grafana_port: 3001
 mysql_metrics_port: 9104
 bind_metrics_port: 9119
 nginx_metrics_port: 9113
+influxdb_port: 8086
+telegraf_port: 6514
+influxdb_metrics_port: 9424
 
 mysql_host: '{{ groups["db_servers"][0] }}'
 mysql_port: 3306

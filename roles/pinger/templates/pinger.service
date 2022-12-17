@@ -1,0 +1,10 @@
+[Unit]
+Description=Pings targets and records the latency
+After=network-online.target
+
+[Service]
+User=pinger
+ExecStart=/usr/local/bin/pinger
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,4 @@
+- name: Restart pinger service
+  service:
+    name: pinger
+    state: restarted
