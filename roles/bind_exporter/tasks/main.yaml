@@ -1,0 +1,15 @@
+- name: install prometheus bind9 exporter
+  apt:
+    name: prometheus-bind-exporter
+
+- name: copy over bind9 exporter defaults file
+  ansible.builtin.template:
+    src: bind_exporter_defaults
+    dest: /etc/default/prometheus-bind-exporter
+  notify: Restart bind exporter
+
+- name: start enable prometheus-bind-exporter
+  service:
+    name: prometheus-bind-exporter
+    state: started
+    enabled: yes

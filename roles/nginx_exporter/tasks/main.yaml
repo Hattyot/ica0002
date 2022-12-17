@@ -1,0 +1,15 @@
+- name: install prometheus nginx exporter
+  apt:
+    name: prometheus-nginx-exporter
+
+- name: copy over nginx exporter defaults file
+  ansible.builtin.template:
+    src: exporter_default
+    dest: /etc/default/prometheus-nginx-exporter
+  notify: Restart nginx exporter
+
+- name: start enable exporter
+  service:
+    name: prometheus-nginx-exporter
+    state: started
+    enabled: yes

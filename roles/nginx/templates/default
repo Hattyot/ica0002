@@ -1,9 +1,88 @@
+map $http_upgrade $connection_upgrade {
+  default upgrade;
+  '' close;
+}
+
+upstream grafana {
+  server localhost:3000;
+}
+
 server {
     listen 80 default_server;
 	server_name _;
 
     location / {
-        uwsgi_pass localhost:{{ agama_port }};
-        include uwsgi_params;
+        {% if inventory_hostname in groups['agama'] %}
+            uwsgi_pass 127.0.0.1:{{ agama_port }};
+            include uwsgi_params;
+        {% else %}
+            root /var/www/html;
+            try_files $uri $uri/ =404;
+        {% endif %}
+    }
+
+    {% if inventory_hostname in groups['prometheus'] %}
+    location /prometheus {
+        proxy_pass http://localhost:{{ prometheus_port }};
+    }
+    {% endif %}
+
+    {% if inventory_hostname in groups['grafana'] %}
+    location /grafana/ {
+        rewrite  ^/grafana/(.*)  /$1 break;
+        proxy_set_header Host $http_host;
+        proxy_pass http://localhost:{{ grafana_port }};
+    }
+    location = /grafana {
+        rewrite  ^/grafana/(.*)  /$1 break;
+        proxy_set_header Host $http_host;
+        proxy_pass http://localhost:{{ grafana_port }};
+    }
+
+    location /grafana/api/live/ {
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $http_host;
+        proxy_pass http://grafana;
+    }
+
+    location /grafana/api/live {
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $http_host;
+        proxy_pass http://grafana;
+    }
+    {% endif %}
+
+    location /node-metrics {
+        proxy_pass http://localhost:9100/metrics;
+    }
+
+    location /nginx-metrics {
+        proxy_pass http://localhost:{{ nginx_metrics_port }}/metrics;
+    }
+
+    {% if inventory_hostname in groups['db_servers'] %}
+    location /mysql-metrics {
+        proxy_pass http://localhost:{{ mysql_metrics_port }}/metrics;
+    }
+    {% endif %}
+
+    {% if inventory_hostname in groups['dns_servers'] %}
+    location /bind-metrics {
+        proxy_pass http://localhost:{{ bind_metrics_port }}/metrics;
+    }
+    {% endif %}
+
+}
+
+server {
+    listen 8080;
+
+    location /stub_status {
+        stub_status;
+        allow 127.0.0.1;
     }
 }

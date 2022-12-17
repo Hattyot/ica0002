@@ -1,0 +1,16 @@
+- name: install prometheus node exporter
+  apt:
+    name: prometheus-node-exporter
+
+- name: copy over defaults
+  template:
+    src: exporter_defaults
+    dest: /etc/default/prometheus-node-exporter
+  notify: Restart node exporter on config change
+  no_log: true
+
+- name: start enable prometheus-node-exporter
+  service:
+    name: prometheus-node-exporter
+    enabled: yes
+    state: started

@@ -17,6 +17,10 @@ options {
 	};
 };
 
+statistics-channels {
+  inet 0.0.0.0 port 8053 allow { localhost; };
+};
+
 key "transfer.key" {
 	algorithm hmac-sha256;
 	secret "{{ dns_transfer_key }}";

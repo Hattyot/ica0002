@@ -1,0 +1,4 @@
+- name: Restart node exporter on config change
+  ansible.builtin.service:
+    name: prometheus-node-exporter
+    state: restarted

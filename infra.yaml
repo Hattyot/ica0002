@@ -4,25 +4,53 @@
     become: yes
     roles:
       - init
+      - node_exporter
+    tags: init
+
+  - name: nginx
+    hosts: all
+    become: yes
+    roles:
+      - nginx
+      - nginx_exporter
+    tags: nginx
 
   - name: Database Server
     hosts: db_servers
     become: yes
     roles:
       - mysql
+      - mysql_exporter
+    tags: database
 
-  - name: Web server
-    hosts: web_servers
+  - name: agama
+    hosts: agama
     become: yes
     roles:
      - agama
      - uwsgi
-     - nginx
+    tags: agama
 
-  - name: DNS servers
+  - name: DNS
     hosts: dns_servers
     become: yes
     roles:
       - bind
       - dns
+      - bind_exporter
     tags: dns
+
+  - name: Prometheus
+    hosts: prometheus
+    become: yes
+    roles:
+      - prometheus
+    tags: prometheus
+
+  - name: grafana
+    hosts: grafana
+    become: yes
+    roles:
+      - grafana
+    tags: grafana
+

@@ -1,0 +1,29 @@
+- name: install prometheus
+  apt:
+    name: prometheus
+
+- name: create home directory for prometheus
+  file:
+    path: /home/prometheus
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+
+- name: set prometheus conf
+  ansible.builtin.template:
+    src: prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+  notify: Restart prometheus on config change
+
+- name: change prometheus default args
+  ansible.builtin.template:
+    src: prometheus_default
+    dest: /etc/default/prometheus
+  notify: Restart prometheus on config change
+
+- name: start and enable prometheus service
+  ansible.builtin.service:
+    name: prometheus
+    state: started
+    enabled: yes

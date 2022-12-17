@@ -1,0 +1,1 @@
+ARGS="--web.external-url=http://{{ ansible_host }}:{{ ansible_port // 100}}80/prometheus --web.listen-address="0.0.0.0:{{ prometheus_port }}""
