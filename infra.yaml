@@ -6,6 +6,7 @@
       - init
       - node_exporter
       - rsyslog
+      - backup
     tags: init
 
   - name: nginx

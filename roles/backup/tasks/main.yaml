@@ -1,0 +1,32 @@
+- name: create backup user
+  user:
+    name: backup
+    create_home: yes
+    home: /home/backup
+    generate_ssh_key: yes
+    state: present
+    system: yes
+    shell: /bin/bash
+
+- name: ensure restore folder
+  file:
+    path: /home/backup/restore
+    state: directory
+    mode: u=rwx,g=rwx,o=rwx
+    owner: backup
+    group: backup
+
+- name: install duplicity
+  apt:
+    name: duplicity
+    state: present
+
+- name: add known_hosts
+  template:
+    src: known_hosts
+    dest: /home/backup/.ssh/known_hosts
+    mode: u=rw,g=rw
+    owner: backup
+    group: backup
+    force: no
+
