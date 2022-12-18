@@ -10,6 +10,9 @@
     name: mysql
     state: started
     enabled: yes
+  notify:
+    - Reset MySQL source
+    - Reset MySQL replica
 
 - name: override conf
   template:
@@ -17,6 +20,7 @@
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify:
     - Restart mysql on config change
+    - Restart mysql exporter on config change
 
 - name: create MySQL database 'agama'
   become: yes
@@ -32,3 +36,22 @@
     priv: "{{ mysql_database }}.*:ALL"
     login_unix_socket: /var/run/mysqld/mysqld.sock
   no_log: true
+
+- name: create MySQL user 'replication'
+  community.mysql.mysql_user:
+    name: "{{ mysql_replication_user }}"
+    password: "{{ mysql_replication_password }}"
+    host: "%"
+    priv: "*.*:REPLICATION SLAVE"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
+
+- name: set replica read only
+  community.mysql.mysql_variables:
+    variable: read_only
+    value: "{{ 'OFF' if inventory_hostname == mysql_host else 'ON' }}"
+    mode: persist
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify:
+    - Reset MySQL source
+    - Reset MySQL replica

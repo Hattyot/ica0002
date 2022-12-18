@@ -1,17 +1,13 @@
 ### BEGIN HOSTS
-vm1 ansible_port=2622
-vm2 ansible_port=9622
+vm1 ansible_port=14922
+vm2 ansible_port=18022
 ### END HOSTS
 
-[db_servers]
-vm2
-
-[dns_servers]
+[dns_master]
 vm1
-vm2
 
-[agama]
-vm1
+[influxdb]
+vm2
 
 [prometheus]
 vm2
@@ -19,12 +15,30 @@ vm2
 [grafana]
 vm2
 
-[influxdb]
-vm2
-
-[pinger]
+[agama]
 vm1
 vm2
+
+[database]
+vm1
+vm2
+
+[keepalived]
+vm1
+vm2
+
+[haproxy]
+vm1
+vm2
+
+[nginx]
+vm1
+vm2
+
+[bind9]
+vm1
+vm2
+
 
 [all:vars]
 ansible_host=193.40.156.67

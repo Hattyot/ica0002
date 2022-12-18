@@ -7,7 +7,11 @@ dns_forwarders:
 dns_allowed:
   - localhost
   - 192.168.42.0/24
+  - 192.168.42.0/23
   - 127.0.0.0/8
+
+ptr_ip: "{{ '.'.join(hostvars['vm1']['ansible_default_ipv4']['address'].split('.')[:3][::-1]) }}"
+ptr_domain_name: "{{ ptr_ip }}.in-addr.arpa"
 
 dns_transfer_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -24,3 +28,25 @@ dns_update_key: !vault |
           34323832616335383134353839633366626635343032393835363266343266373832313662313162
           3833626331613830370a306664616232346665666366623963623131306562393839326230313261
           35346366396163663366633939393438313938633761663138313430646263393235
+
+dns_cnames:
+  - cname: grafana
+    group: grafana
+  - cname: influxdb
+    group: influxdb
+  - cname: lb
+    group: haproxy
+  - cname: mysql
+    group: database
+  - cname: ns
+    group: bind9
+  - cname: prometheus
+    group: prometheus
+  - cname: web
+    group: agama
+  - cname: nginx
+    group: nginx
+  - cname: node
+    group: all
+  - cname: keepalived
+    group: keepalived

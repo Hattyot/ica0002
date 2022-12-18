@@ -3,3 +3,5 @@ bind_address = 0.0.0.0
 log-bin = /var/log/mysql/mysql-bin.log
 relay-log = /var/log/mysql/mysql-relay.log
 port = {{ mysql_port }}
+replicate-do-db = {{ mysql_database }}
+server-id = {{ node_id }}

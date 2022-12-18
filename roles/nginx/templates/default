@@ -11,15 +11,11 @@ server {
     listen 80 default_server;
 	server_name _;
 
+    {% if inventory_hostname in groups['agama'] %}
     location / {
-        {% if inventory_hostname in groups['agama'] %}
-            uwsgi_pass 127.0.0.1:{{ agama_port }};
-            include uwsgi_params;
-        {% else %}
-            root /var/www/html;
-            try_files $uri $uri/ =404;
-        {% endif %}
+        proxy_pass http://localhost:{{ agama_port }};
     }
+    {% endif %}
 
     {% if inventory_hostname in groups['prometheus'] %}
     location /prometheus {
@@ -64,13 +60,13 @@ server {
         proxy_pass http://localhost:{{ nginx_metrics_port }}/metrics;
     }
 
-    {% if inventory_hostname in groups['db_servers'] %}
+    {% if inventory_hostname in groups['database'] %}
     location /mysql-metrics {
         proxy_pass http://localhost:{{ mysql_metrics_port }}/metrics;
     }
     {% endif %}
 
-    {% if inventory_hostname in groups['dns_servers'] %}
+    {% if inventory_hostname in groups['bind9'] %}
     location /bind-metrics {
         proxy_pass http://localhost:{{ bind_metrics_port }}/metrics;
     }
@@ -79,6 +75,18 @@ server {
     {% if inventory_hostname in groups['influxdb'] %}
     location /influxdb-metrics {
         proxy_pass http://localhost:{{ influxdb_metrics_port }}/metrics;
+    }
+    {% endif %}
+
+    {% if inventory_hostname in groups['keepalived'] %}
+    location /keepalived-metrics {
+        proxy_pass http://localhost:{{ keepalived_metrics_port }}/metrics;
+    }
+    {% endif %}
+
+    {% if inventory_hostname in groups['haproxy'] %}
+    location /haproxy-metrics {
+        proxy_pass http://localhost:{{ haproxy_port }}/metrics;
     }
     {% endif %}
 

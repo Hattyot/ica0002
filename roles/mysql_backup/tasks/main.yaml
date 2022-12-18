@@ -1,0 +1,37 @@
+- name: ensure mysql backup folder
+  file:
+    path: /home/backup/mysql
+    state: directory
+    owner: backup
+    group: backup
+    mode: u=rwx,g=rwx
+
+- name: create MySQL user for backup
+  community.mysql.mysql_user:
+    name: "{{ mysql_backup_user }}"
+    password: "{{ mysql_backup_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    priv: "{{ mysql_database }}.*:LOCK TABLES,SELECT"
+  no_log: true
+
+- name: copy over my.cnf
+  template:
+    src: my.cnf
+    dest: /home/backup/.my.cnf
+    owner: backup
+    group: backup
+    mode: 0400
+  no_log: true
+
+- name: create folder for mysql dump on backup server
+  shell:
+    cmd: "sudo su - backup -c 'ssh {{ backup_hostname }}@backup mkdir /home/{{ backup_hostname }}/mysql 2>&1'"
+  register: result
+  changed_when: false
+  failed_when: false
+
+
+- name: set up cron task for database backup
+  template:
+    src: mysql-backup-cron
+    dest: /etc/cron.d/mysql-backup

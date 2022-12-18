@@ -1,0 +1,6 @@
+{% if inventory_hostname == mysql_backup_host %}
+0 2 * * * backup rm -rf /home/backup/mysql/*; mysqldump agama > /home/backup/mysql/agama-`date +\%Y\%m\%d\%H\%M\%S`.sql
+
+15 2 * * 0 backup  duplicity --no-encryption full /home/backup/mysql/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/mysql
+20 2 * * 1-6 backup  duplicity --no-encryption incremental /home/backup/mysql/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/mysql
+{% endif %}

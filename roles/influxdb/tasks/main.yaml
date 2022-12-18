@@ -2,9 +2,20 @@
   apt:
     name:
       - influxdb
-      - influxdb-client
       - python3-influxdb
     state: present
+  register: inluxdb_installed
+
+- name: start enable influxd
+  service:
+    name: influxdb
+    state: started
+    enabled: yes
+
+- name: wait after influx install
+  pause:
+    seconds: 15
+  when: inluxdb_installed.changed
 
 - name: Create latency database
   influxdb_database:
@@ -19,9 +30,3 @@
     src: influxdb.conf
     dest: /etc/influxdb/influxdb.conf
   notify: restart influxdb
-
-- name: start enable influxd
-  service:
-    name: influxdb
-    state: started
-    enabled: yes

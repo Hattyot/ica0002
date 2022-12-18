@@ -1,8 +1,10 @@
 - name: Install bind9 and dnspython
   apt:
-    name: bind9
+    name:
+      - bind9
+      - python3-dnspython
 
-- name: get old domain_name
+- name: check if domain has changed
   shell:
     cmd: "named-checkconf -p | grep zone | cut -d '\"' -f2 | grep -v in-addr | head -1"
   failed_when: false
@@ -17,9 +19,9 @@
     path: "/var/cache/bind/db.{{ item }}"
   loop:
     - "{{ domain_name }}"
+    - "{{ '.'.join(hostvars['vm1']['ansible_default_ipv4']['address'].split('.')[:3][::-1]) }}"
     - "{{ old_domain_name.stdout }}"
   when: old_domain_name.changed
-  no_log: true
 
 - name: copy over config
   template:
@@ -29,20 +31,90 @@
   register: config
   no_log: true
 
-- name: copy over zone config
+- name: master zone config
   template:
     src: named.conf.local
     dest: /etc/bind/named.conf.local
   notify: restart bind9
+  when: inventory_hostname in groups['dns_master']
+
+- name: slave zone config
+  template:
+    src: named.conf.local.slave
+    dest: /etc/bind/named.conf.local
+  notify: restart bind9
+  when: inventory_hostname not in groups['dns_master']
+
+- name: rndc reload
+  become: yes
+  ansible.builtin.shell:
+    cmd: "rndc reload"
+  when: config.changed
+
+- name: restart bind9
+  ansible.builtin.service:
+    name: bind9
+    state: restarted
+  when: config.changed
 
 - name: Add masters bind9 db
   ansible.builtin.template:
-    src: "master.db"
-    dest: "/var/cache/bind/db.{{ domain_name }}"
+    src: "{{ item[0] }}"
+    dest: "/var/cache/bind/db.{{ item[1] }}"
+    force: no
+  loop:
+    - ["master.db", "{{domain_name}}"]
+    - ["reverse-master.db", "{{ ptr_ip }}"]
   notify: rndc reload
+  when: inventory_hostname in groups['dns_master']
+  register: rndc
 
 - name: start enable bind9
   service:
     name: bind9
     state: started
     enabled: yes
+
+- name: rndc reload
+  become: yes
+  ansible.builtin.shell:
+    cmd: "rndc reload"
+  when: rndc.changed
+
+- name: restart bind9
+  ansible.builtin.service:
+    name: bind9
+    state: restarted
+  when: rndc.changed
+
+- name: Add an A record
+  nsupdate:
+    key_algorithm: "hmac-sha256"
+    key_name: "update.key"
+    key_secret: "{{dns_update_key}}"
+    server: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    zone: "{{ domain_name }}."
+    record: "backup.{{ domain_name }}."
+    value: "{{ backup_server }}"
+    type: "A"
+  when: "{{inventory_hostname == groups['dns_master'][0] }}"
+#  no_log: true
+
+- name: get cname data
+  set_fact:
+    cnames: "{% set temp = {} %}{%- for i in range(1, groups[item.group] | count + 1) -%}{% do temp.update({item.cname + (i.__str__() if groups[item.group].__len__() > 1 else ''): groups[item.group][i-1]}) %}{%- endfor -%} {{cnames | default({}) | combine(temp)}}"
+  loop: "{{ dns_cnames }}"
+
+- name: cname records
+  nsupdate:
+    key_algorithm: "hmac-sha256"
+    key_name: "update.key"
+    key_secret: "{{ dns_update_key }}"
+    server: "{{ hostvars[groups['dns_master'][0]]['ansible_default_ipv4']['address'] }}"
+    zone: "{{ domain_name }}."
+    record: "{{ item.key }}.{{ domain_name }}."
+    value: "{{ item.value }}.{{ domain_name }}."
+    type: "CNAME"
+  loop: "{{cnames | dict2items}}"
+  when: "{{ inventory_hostname == groups['dns_master'][0] }}"
+  no_log: true

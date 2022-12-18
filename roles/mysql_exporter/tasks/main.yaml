@@ -1,3 +1,13 @@
+- name: copy over my.cnf for mysql exporter
+  template:
+    src: .my.cnf
+    dest: /var/lib/prometheus/.my.cnf
+    owner: prometheus
+    mode: 0400
+  notify: Restart mysql exporter
+  no_log: true
+
+
 - name: install prometheus mysqld exporter
   apt:
     name: prometheus-mysqld-exporter
@@ -7,13 +17,6 @@
     name: "{{ mysql_prometheus_user }}"
     password: "{{ mysql_prometheus_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  no_log: true
-
-- name: copy over my.cnf for mysql exporter
-  template:
-    src: .my.cnf
-    dest: /var/lib/prometheus/.my.cnf
-  notify: Restart mysql exporter
   no_log: true
 
 - name: grant mysql exporter user access

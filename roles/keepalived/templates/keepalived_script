@@ -1,0 +1,2 @@
+#!/bin/bash
+ss -ntl | grep -q ':{{ haproxy_port }} '

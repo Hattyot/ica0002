@@ -7,6 +7,7 @@
       - node_exporter
       - rsyslog
       - backup
+      - docker
     tags: init
 
   - name: nginx
@@ -18,11 +19,12 @@
     tags: nginx
 
   - name: Database Server
-    hosts: db_servers
+    hosts: database
     become: yes
     roles:
       - mysql
       - mysql_exporter
+      - mysql_backup
     tags: database
 
   - name: agama
@@ -30,11 +32,10 @@
     become: yes
     roles:
      - agama
-     - uwsgi
     tags: agama
 
-  - name: DNS
-    hosts: dns_servers
+  - name: dns
+    hosts: bind9
     become: yes
     roles:
       - bind
@@ -55,6 +56,8 @@
     roles:
       - telegraf
       - influxdb
+      - influxdb_exporter
+      - influxdb_backup
     tags: influxdb
 
   - name: grafana
@@ -70,5 +73,15 @@
     roles:
       - pinger
     tags: pinger
+
+  - name: loadbalancer
+    hosts:
+      - haproxy
+      - keepalived
+    become: yes
+    roles:
+      - haproxy
+      - keepalived
+    tags: loadbalancer
 
 

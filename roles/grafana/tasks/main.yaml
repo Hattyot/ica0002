@@ -1,65 +1,52 @@
-- name: Install Grafana requirements
-  apt:
-    name:
-     - ca-certificates
-     - apt-transport-https
-     - software-properties-common
-     - wget
+- name: Ensures grafana dirs exists
+  file:
+    path: "/opt/grafana/provisioning/{{ item }}"
+    state: directory
+    recurse: yes
+  loop:
+    - 'dashboards'
+    - 'datasources'
 
-- name: get grafana key
-  ansible.builtin.get_url:
-    url: https://apt.grafana.com/gpg.key
-    dest: /usr/share/keyrings/grafana.key
-
-- name: add grafana repository
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com stable main"
-    filename: grafana
-    state: present
-
-- name: install grafana
-  apt:
-    name: grafana
-  register: grafana_installed
-
-- name: start enable grafana server
-  service:
-    name: grafana-server
-    state: started
-    enabled: yes
-
-- name: copy over grafana config
+- name: copy over grafana.ini
   template:
     src: grafana.ini
-    dest: /etc/grafana/grafana.ini
-  notify: restart grafana-server
+    dest: /opt/grafana/grafana.ini
+  notify:
+    - redeploy grafana container
   no_log: true
 
-- name: set prometheus as datasource
+- name: add grafana datasources
   template:
     src: datasource.yaml
-    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
-  notify: restart grafana-server
+    dest: /opt/grafana/provisioning/datasources/default.yaml
+  notify:
+    - redeploy grafana container
 
-- name: Ensures dashboard dir exists
-  file:
-    path: /var/lib/grafana/dashboards/
-    state: directory
-
-- name: copy over main dashboard json
+- name: copy over dashboards
   copy:
-    src: main.json
-    dest: /var/lib/grafana/dashboards/prometheus.json
-  notify: restart grafana-server
-
-- name: copy over syslog dashboard json
-  copy:
-    src: logs.json
-    dest: /var/lib/grafana/dashboards/logs.json
-  notify: restart grafana-server
+    src: "{{ item }}"
+    dest: "/opt/grafana/provisioning/dashboards/{{ item }}"
+  loop:
+    - mysql.json
+    - logs.json
+    - main.json
+  notify:
+    - redeploy grafana container
 
 - name: add dashboard provisioning
   template:
     src: dashboard.yaml
-    dest: /etc/grafana/provisioning/dashboards/prometheus.yaml
-  notify: restart grafana-server
+    dest: /opt/grafana/provisioning/dashboards/default.yaml
+  notify:
+    - redeploy grafana container
+
+- name: deploy grafana container
+  docker_container:
+    name: grafana
+    image: grafana/grafana:8.3.3
+    volumes: /opt/grafana:/etc/grafana
+    published_ports: "{{ grafana_port }}:3000"
+    state: started
+    container_default_behavior: no_defaults
+    restart_policy: always
+  register: grafana_deploy

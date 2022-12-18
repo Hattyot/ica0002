@@ -1,25 +1,46 @@
-- name: Create system user 'agama'
-  user:
-    name: agama
-    system: yes
-    create_home: yes
-    state: present
-
-- name: Create directory /opt/agama
+- name: ensure /opt/agama exists
   file:
     path: /opt/agama
     state: directory
-    owner: agama
 
-- name: Install agama dependencies
-  apt:
-    name:
-      - python3
-      - python3-flask-sqlalchemy
-      - python3-pymysql
-    state: latest
+- name: get agama Dockerfile
+  get_url:
+    url: "https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile"
+    dest: "/opt/agama/Dockerfile"
 
-- name: Install agama
+- name: Download agama
   get_url:
     url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py
     dest: /opt/agama
+
+- name: build agama docker image
+  docker_image:
+    name: agama
+    source: build
+    build:
+      network: host
+      path: /opt/agama
+
+- name: gather existing AGAMA_DATABASE_URI env variable value
+  command: "sudo docker exec -t agama env | grep AGAMA_DATABASE_URI= | cut -d '=' -f2"
+  register: agama_database_uri
+  changed_when: false
+  failed_when: false
+  no_log: true
+
+- name: deploy agama container
+  docker_container:
+    name: "agama{{ item }}"
+    image: agama:latest
+    volumes: /opt/agama:/etc/agama
+    pull: no
+    restart_policy: always
+    published_ports: "{{ agama_port + item }}:8000"
+    state: started
+    container_default_behavior: no_defaults
+    env:
+      AGAMA_DATABASE_URI: mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{ mysql_port }}/{{ mysql_database }}
+  when: "agama_database_uri.stdout != 'mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{ mysql_port }}/{{ mysql_database }}'"
+  loop:
+    - 0
+    - 1

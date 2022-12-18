@@ -4,3 +4,10 @@ zone "{{ domain_name }}" {
   allow-transfer { key transfer.key; };
   allow-update { key update.key; };
 };
+
+zone "{{ ptr_domain_name }}" {
+  type master;
+  file "/var/cache/bind/db.{{ '.'.join(hostvars['vm1']['ansible_default_ipv4']['address'].split('.')[:3][::-1]) }}";
+  allow-transfer { key transfer.key; };
+  allow-update { key update.key; };
+};

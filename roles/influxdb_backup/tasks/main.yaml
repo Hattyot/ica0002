@@ -1,0 +1,22 @@
+- name: ensure influxdb backup folders exist
+  file:
+    path: "/home/backup/influxdb/{{ item }}"
+    state: directory
+    owner: backup
+    mode: u=rwx,g=rwx
+  loop:
+    - latency
+    - telegraf
+
+- name: create backup server folder for influxdb
+  shell:
+    cmd: "sudo su - backup -c 'ssh {{ backup_hostname }}@backup mkdir -p /home/{{ backup_hostname }}/influxdb/telegraf/ & ssh {{ backup_hostname }}@backup mkdir -p /home/{{ backup_hostname }}/influxdb/latency/ 2>&1'"
+  register: result
+  changed_when: false
+  failed_when: false
+
+- name: set up cron task for database backup
+  template:
+    src: influxdb-backup-cron
+    dest: /etc/cron.d/influxdb-backup
+  when: inventory_hostname in groups['influxdb']
