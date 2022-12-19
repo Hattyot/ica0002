@@ -11,11 +11,11 @@
 
 - name: set hostname when current one is not correct
   shell:
-    cmd: "hostnamectl set-hostname hattyot-vm-{{ inventory_hostname[-1] }}"
-  when: "'hattyot-vm-{{ inventory_hostname[-1] }}' != hostname.stdout"
+    cmd: "hostnamectl set-hostname {{ inventory_hostname }}"
+  when: "'{{ inventory_hostname }}' != hostname.stdout"
 
 - name: add hostname to /etc/hosts
   become: true
   blockinfile:
     path: /etc/hosts
-    block: "127.0.0.1 hattyot-vm-{{ inventory_hostname[-1] }}"
+    block: "localhost {{ inventory_hostname }}"

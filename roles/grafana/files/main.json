@@ -96,7 +96,7 @@
             "uid": "P1809F7CD0C75ACF3"
           },
           "exemplar": false,
-          "expr": "(nginx_up{instance=\"nginx1:80\"}) or (nginx_up{instance=\"nginx2:80\"}) or (nginx_up{instance=\"nginx3:80\"})",
+          "expr": "(nginx_up{instance=\"nginx1:80\"} or 1-absent(nginx_up{instance=\"nginx1:80\"})) or (nginx_up{instance=\"nginx2:80\"} or 1-absent(nginx_up{instance=\"nginx2:80\"})) or (nginx_up{instance=\"nginx3:80\"} or 1-absent(nginx_up{instance=\"nginx3:80\"}))",
           "instant": true,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -178,7 +178,7 @@
             "uid": "P1809F7CD0C75ACF3"
           },
           "exemplar": false,
-          "expr": "(bind_up{instance=\"ns1:80\"}) or (bind_up{instance=\"ns2:80\"}) or (bind_up{instance=\"ns3:80\"})",
+          "expr": "(bind_up{instance=\"ns1:80\"} or 1-absent(bind_up{instance=\"ns1:80\"})) or (bind_up{instance=\"ns2:80\"} or 1-absent(bind_up{instance=\"ns2:80\"})) or (bind_up{instance=\"ns3:80\"} or 1-absent(bind_up{instance=\"ns3:80\"}))",
           "instant": true,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -268,7 +268,7 @@
             "uid": "P1809F7CD0C75ACF3"
           },
           "exemplar": false,
-          "expr": "(keepalived_vrrp_state{instance=\"keepalived1:80\"}) or (keepalived_vrrp_state{instance=\"keepalived2:80\"})",
+          "expr": "(keepalived_vrrp_state{instance=\"keepalived1:80\"} or 1-absent(keepalived_vrrp_state{instance=\"keepalived1:80\"})) or (keepalived_vrrp_state{instance=\"keepalived2:80\"} or 1-absent(keepalived_vrrp_state{instance=\"keepalived2:80\"}))",
           "instant": true,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -289,13 +289,17 @@
             {
               "options": {
                 "0": {
-                  "color": "dark-red",
                   "index": 0,
-                  "text": "DOWN"
+                  "text": "MASTER"
                 },
                 "1": {
                   "index": 1,
-                  "text": "UP"
+                  "text": "SLAVE"
+                },
+                "-1": {
+                  "color": "dark-red",
+                  "index": 2,
+                  "text": "DOWN"
                 }
               },
               "type": "value"
@@ -320,89 +324,6 @@
         "x": 12,
         "y": 0
       },
-      "id": 23,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "8.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
-          },
-          "exemplar": true,
-          "expr": "mysql_up",
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "title": "mysql status",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": []
-            }
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "index": 0,
-                  "text": "MASTER"
-                },
-                "1": {
-                  "index": 1,
-                  "text": "SLAVE"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 16,
-        "y": 0
-      },
       "id": 21,
       "options": {
         "colorMode": "background",
@@ -425,8 +346,9 @@
             "type": "prometheus",
             "uid": "P1809F7CD0C75ACF3"
           },
-          "exemplar": true,
-          "expr": "mysql_global_variables_read_only or absent(mysql_global_variables_read_only)",
+          "exemplar": false,
+          "expr": "(mysql_global_variables_read_only{instance=\"mysql1:80\"} or -absent(mysql_global_variables_read_only{instance=\"mysql1:80\"})) or (mysql_global_variables_read_only{instance=\"mysql2:80\"} or -absent(mysql_global_variables_read_only{instance=\"mysql2:80\"}))",
+          "instant": true,
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -491,7 +413,7 @@
       "gridPos": {
         "h": 5,
         "w": 4,
-        "x": 20,
+        "x": 16,
         "y": 0
       },
       "id": 28,
@@ -1132,7 +1054,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "latency",
+          "measurement": "rtt",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -1358,13 +1280,13 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Home",
   "uid": "Si_ANMK7a",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }

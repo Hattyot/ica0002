@@ -11,11 +11,14 @@ server {
     listen 80 default_server;
 	server_name _;
 
-    {% if inventory_hostname in groups['agama'] %}
     location / {
-        proxy_pass http://localhost:{{ agama_port }};
+        {% if inventory_hostname in groups['agama'] %}
+            proxy_pass http://localhost:{{ agama_port }};
+        {% else %}
+            root /var/www/html;
+            try_files $uri $uri/ =404;
+        {% endif %}
     }
-    {% endif %}
 
     {% if inventory_hostname in groups['prometheus'] %}
     location /prometheus {

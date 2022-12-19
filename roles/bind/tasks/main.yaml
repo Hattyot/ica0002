@@ -98,7 +98,7 @@
     value: "{{ backup_server }}"
     type: "A"
   when: "{{inventory_hostname == groups['dns_master'][0] }}"
-#  no_log: true
+  no_log: true
 
 - name: get cname data
   set_fact:

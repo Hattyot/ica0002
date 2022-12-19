@@ -5,17 +5,17 @@ datasources:
     type: prometheus
     access: proxy
     orgId: 1
-    url: http://{{ groups['prometheus'][0] }}/prometheus
+    url: http://prometheus/prometheus
     editable: true
   - name: influxdb:latency
     type: influxdb
     access: proxy
-    url: "http://{{ groups['influxdb'][0] }}:{{ influxdb_port }}"
+    url: "http://influxdb:{{ influxdb_port }}"
     editable: true
     database: latency
   - name: influxdb:telegraf
     type: influxdb
     access: proxy
-    url: "http://{{ groups['influxdb'][0] }}:{{ influxdb_port }}"
+    url: "http://influxdb:{{ influxdb_port }}"
     editable: true
     database: telegraf
