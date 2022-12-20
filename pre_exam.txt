@@ -1,4 +1,4 @@
-Mon Dec 19 17:57:44 EET 2022
+Tue Dec 20 14:06:17 EET 2022
 ssaart-laptop
 [WARNING]: An error occurred while calling
 ansible.utils.display.initialize_locale (unsupported locale setting). This may
@@ -8,68 +8,33 @@ incorrect line lengths
 PLAY [Init] ********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
+ok: [vm1]
 
 TASK [init : Update APT cache] *************************************************
-changed: [vm3]
 changed: [vm2]
+changed: [vm3]
 changed: [vm1]
 
 TASK [init : get current hostname] *********************************************
-ok: [vm3]
 ok: [vm1]
+ok: [vm3]
 ok: [vm2]
 
 TASK [init : set hostname when current one is not correct] *********************
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 changed: [vm3]
-changed: [vm1]
 changed: [vm2]
-
-TASK [init : add hostname to /etc/hosts] ***************************************
---- before: /etc/hosts (content)
-+++ after: /etc/hosts (content)
-@@ -7,3 +7,6 @@
- ff02::1 ip6-allnodes
- ff02::2 ip6-allrouters
- ff02::3 ip6-allhosts
-+# BEGIN ANSIBLE MANAGED BLOCK
-+localhost hattyot-vm-1
-+# END ANSIBLE MANAGED BLOCK
-
 changed: [vm1]
---- before: /etc/hosts (content)
-+++ after: /etc/hosts (content)
-@@ -7,3 +7,6 @@
- ff02::1 ip6-allnodes
- ff02::2 ip6-allrouters
- ff02::3 ip6-allhosts
-+# BEGIN ANSIBLE MANAGED BLOCK
-+localhost hattyot-vm-3
-+# END ANSIBLE MANAGED BLOCK
-
-changed: [vm3]
---- before: /etc/hosts (content)
-+++ after: /etc/hosts (content)
-@@ -7,3 +7,6 @@
- ff02::1 ip6-allnodes
- ff02::2 ip6-allrouters
- ff02::3 ip6-allhosts
-+# BEGIN ANSIBLE MANAGED BLOCK
-+localhost hattyot-vm-2
-+# END ANSIBLE MANAGED BLOCK
-
-changed: [vm2]
 
 TASK [node_exporter : install prometheus node exporter] ************************
 The following additional packages will be installed:
@@ -82,7 +47,7 @@ The following NEW packages will be installed:
   moreutils prometheus-node-exporter prometheus-node-exporter-collectors
   smartmontools
 0 upgraded, 8 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm3]
+changed: [vm1]
 The following additional packages will be installed:
   libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
   moreutils prometheus-node-exporter-collectors smartmontools
@@ -93,7 +58,7 @@ The following NEW packages will be installed:
   moreutils prometheus-node-exporter prometheus-node-exporter-collectors
   smartmontools
 0 upgraded, 8 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm1]
+changed: [vm3]
 The following additional packages will be installed:
   libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
   moreutils prometheus-node-exporter-collectors smartmontools
@@ -107,18 +72,18 @@ The following NEW packages will be installed:
 changed: [vm2]
 
 TASK [node_exporter : copy over defaults] **************************************
+changed: [vm1]
 changed: [vm3]
 changed: [vm2]
-changed: [vm1]
 
 TASK [node_exporter : start enable prometheus-node-exporter] *******************
+ok: [vm3]
 ok: [vm1]
 ok: [vm2]
-ok: [vm3]
 
 TASK [rsyslog : copy over rsyslog telegraf conf] *******************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp8ixtd1zq/rsyslog-telegraf.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpruziefmv/rsyslog-telegraf.conf
 @@ -0,0 +1,6 @@
 +$ActionQueueType LinkedList
 +$ActionQueueFileName srvrfwd
@@ -127,9 +92,9 @@ TASK [rsyslog : copy over rsyslog telegraf conf] *******************************
 +
 +*.* @vm3:6514;RSYSLOG_SyslogProtocol23Format
 
-changed: [vm2]
+changed: [vm1]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp7_78zma2/rsyslog-telegraf.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp7f3rwuky/rsyslog-telegraf.conf
 @@ -0,0 +1,6 @@
 +$ActionQueueType LinkedList
 +$ActionQueueFileName srvrfwd
@@ -140,7 +105,7 @@ changed: [vm2]
 
 changed: [vm3]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpy2f75zr8/rsyslog-telegraf.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp1jpwonnb/rsyslog-telegraf.conf
 @@ -0,0 +1,6 @@
 +$ActionQueueType LinkedList
 +$ActionQueueFileName srvrfwd
@@ -149,17 +114,17 @@ changed: [vm3]
 +
 +*.* @vm3:6514;RSYSLOG_SyslogProtocol23Format
 
-changed: [vm1]
+changed: [vm2]
 
 TASK [rsyslog : start enable rsyslog] ******************************************
-ok: [vm2]
 ok: [vm1]
 ok: [vm3]
+ok: [vm2]
 
 TASK [backup : create backup user] *********************************************
+changed: [vm2]
 changed: [vm3]
 changed: [vm1]
-changed: [vm2]
 
 TASK [backup : ensure restore folder] ******************************************
 --- before
@@ -222,7 +187,7 @@ The following NEW packages will be installed:
   duplicity librsync2 python3-bcrypt python3-fasteners python3-future
   python3-lockfile python3-monotonic python3-paramiko
 0 upgraded, 8 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm1]
+changed: [vm2]
 The following additional packages will be installed:
   librsync2 python3-bcrypt python3-fasteners python3-future python3-lockfile
   python3-monotonic python3-paramiko
@@ -233,7 +198,7 @@ The following NEW packages will be installed:
   duplicity librsync2 python3-bcrypt python3-fasteners python3-future
   python3-lockfile python3-monotonic python3-paramiko
 0 upgraded, 8 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm2]
+changed: [vm1]
 The following additional packages will be installed:
   librsync2 python3-bcrypt python3-fasteners python3-future python3-lockfile
   python3-monotonic python3-paramiko
@@ -248,16 +213,7 @@ changed: [vm3]
 
 TASK [backup : add known_hosts] ************************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpfhinbp7b/known_hosts
-@@ -0,0 +1,3 @@
-+192.168.42.132 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
-+backup ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
-+backup.sillyhat.io ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
-\ No newline at end of file
-
-changed: [vm1]
---- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpfszb_yln/known_hosts
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp6cobahk4/known_hosts
 @@ -0,0 +1,3 @@
 +192.168.42.132 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
 +backup ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
@@ -266,7 +222,16 @@ changed: [vm1]
 
 changed: [vm3]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp9yhodubn/known_hosts
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp1l8qmx3x/known_hosts
+@@ -0,0 +1,3 @@
++192.168.42.132 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
++backup ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
++backup.sillyhat.io ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
+\ No newline at end of file
+
+changed: [vm1]
+--- before
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpwkttgssd/known_hosts
 @@ -0,0 +1,3 @@
 +192.168.42.132 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
 +backup ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN0rTGlGmEzTODaw6+WWszpBY5fXmSGksHhI3CB/y/0BB4N0i69kf0dj14nDh23XWNfMWmn0rTOAks2tyTAWw5I=
@@ -286,6 +251,17 @@ The following NEW packages will be installed:
   bridge-utils containerd dns-root-data dnsmasq-base docker.io libidn11 pigz
   runc ubuntu-fan
 0 upgraded, 9 newly installed, 0 to remove and 231 not upgraded.
+changed: [vm1]
+The following additional packages will be installed:
+  bridge-utils containerd dns-root-data dnsmasq-base libidn11 pigz runc
+  ubuntu-fan
+Suggested packages:
+  ifupdown aufs-tools cgroupfs-mount | cgroup-lite debootstrap docker-doc
+  rinse zfs-fuse | zfsutils
+The following NEW packages will be installed:
+  bridge-utils containerd dns-root-data dnsmasq-base docker.io libidn11 pigz
+  runc ubuntu-fan
+0 upgraded, 9 newly installed, 0 to remove and 231 not upgraded.
 changed: [vm2]
 The following additional packages will be installed:
   bridge-utils containerd dns-root-data dnsmasq-base libidn11 pigz runc
@@ -298,17 +274,6 @@ The following NEW packages will be installed:
   runc ubuntu-fan
 0 upgraded, 9 newly installed, 0 to remove and 231 not upgraded.
 changed: [vm3]
-The following additional packages will be installed:
-  bridge-utils containerd dns-root-data dnsmasq-base libidn11 pigz runc
-  ubuntu-fan
-Suggested packages:
-  ifupdown aufs-tools cgroupfs-mount | cgroup-lite debootstrap docker-doc
-  rinse zfs-fuse | zfsutils
-The following NEW packages will be installed:
-  bridge-utils containerd dns-root-data dnsmasq-base docker.io libidn11 pigz
-  runc ubuntu-fan
-0 upgraded, 9 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm1]
 
 TASK [docker : install python3-docker] *****************************************
 The following additional packages will be installed:
@@ -316,12 +281,6 @@ The following additional packages will be installed:
 The following NEW packages will be installed:
   python3-docker python3-websocket
 0 upgraded, 2 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm2]
-The following additional packages will be installed:
-  python3-websocket
-The following NEW packages will be installed:
-  python3-docker python3-websocket
-0 upgraded, 2 newly installed, 0 to remove and 231 not upgraded.
 changed: [vm3]
 The following additional packages will be installed:
   python3-websocket
@@ -329,28 +288,34 @@ The following NEW packages will be installed:
   python3-docker python3-websocket
 0 upgraded, 2 newly installed, 0 to remove and 231 not upgraded.
 changed: [vm1]
+The following additional packages will be installed:
+  python3-websocket
+The following NEW packages will be installed:
+  python3-docker python3-websocket
+0 upgraded, 2 newly installed, 0 to remove and 231 not upgraded.
+changed: [vm2]
 
 TASK [docker : start enable dockerd] *******************************************
-ok: [vm3]
 ok: [vm1]
+ok: [vm3]
 ok: [vm2]
 
 RUNNING HANDLER [node_exporter : Restart node exporter on config change] *******
+changed: [vm1]
 changed: [vm2]
 changed: [vm3]
-changed: [vm1]
 
 RUNNING HANDLER [rsyslog : restart rsyslog] ************************************
-changed: [vm3]
-changed: [vm2]
 changed: [vm1]
+changed: [vm2]
+changed: [vm3]
 
 PLAY [nginx] *******************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm3]
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
+ok: [vm3]
 
 TASK [nginx : install nginx] ***************************************************
 The following additional packages will be installed:
@@ -366,6 +331,20 @@ The following NEW packages will be installed:
   libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
   libwebp6 libxpm4 nginx nginx-common nginx-core
 0 upgraded, 17 newly installed, 0 to remove and 231 not upgraded.
+changed: [vm3]
+The following additional packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
+  libwebp6 libxpm4 nginx-common nginx-core
+Suggested packages:
+  libgd-tools fcgiwrap nginx-doc ssl-cert
+The following NEW packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
+  libwebp6 libxpm4 nginx nginx-common nginx-core
+0 upgraded, 17 newly installed, 0 to remove and 231 not upgraded.
 changed: [vm2]
 The following additional packages will be installed:
   fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
@@ -381,24 +360,10 @@ The following NEW packages will be installed:
   libwebp6 libxpm4 nginx nginx-common nginx-core
 0 upgraded, 17 newly installed, 0 to remove and 231 not upgraded.
 changed: [vm1]
-The following additional packages will be installed:
-  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
-  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
-  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
-  libwebp6 libxpm4 nginx-common nginx-core
-Suggested packages:
-  libgd-tools fcgiwrap nginx-doc ssl-cert
-The following NEW packages will be installed:
-  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
-  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
-  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
-  libwebp6 libxpm4 nginx nginx-common nginx-core
-0 upgraded, 17 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm3]
 
 TASK [nginx : Replace default nginx page] **************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp_lv0i5pi/index.html
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp1k3lzacx/index.html
 @@ -0,0 +1,8 @@
 +<html>
 +    <head>
@@ -411,20 +376,7 @@ TASK [nginx : Replace default nginx page] **************************************
 
 changed: [vm3]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpin2av_52/index.html
-@@ -0,0 +1,8 @@
-+<html>
-+    <head>
-+        <title>vm2 - Nginx</title>
-+    </head>
-+    <body>
-+        <h1>Nginx running on vm2</h1>
-+    </body>
-+</html>
-
-changed: [vm2]
---- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpau6ai18o/index.html
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpavo8q51p/index.html
 @@ -0,0 +1,8 @@
 +<html>
 +    <head>
@@ -436,11 +388,24 @@ changed: [vm2]
 +</html>
 
 changed: [vm1]
+--- before
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmparc3ytdw/index.html
+@@ -0,0 +1,8 @@
++<html>
++    <head>
++        <title>vm2 - Nginx</title>
++    </head>
++    <body>
++        <h1>Nginx running on vm2</h1>
++    </body>
++</html>
+
+changed: [vm2]
 
 TASK [nginx : Set nginx conf] **************************************************
 --- before: /etc/nginx/sites-enabled/default
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpzh689uq2/default
-@@ -1,91 +1,54 @@
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpv0nvfmt_/default
+@@ -1,91 +1,82 @@
 -##
 -# You should look at the following URL's in order to grasp a solid understanding
 -# of Nginx configuration files in order to fully unleash the power of Nginx.
@@ -503,150 +468,8 @@ TASK [nginx : Set nginx conf] **************************************************
 -		try_files $uri $uri/ =404;
 -	}
 +    location / {
-+            proxy_pass http://localhost:5000;
-+    }
- 
--	# pass PHP scripts to FastCGI server
--	#
--	#location ~ \.php$ {
--	#	include snippets/fastcgi-php.conf;
--	#
--	#	# With php-fpm (or other unix sockets):
--	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
--	#	# With php-cgi (or other tcp sockets):
--	#	fastcgi_pass 127.0.0.1:9000;
--	#}
- 
--	# deny access to .htaccess files, if Apache's document root
--	# concurs with nginx's one
--	#
--	#location ~ /\.ht {
--	#	deny all;
--	#}
-+
-+    location /node-metrics {
-+        proxy_pass http://localhost:9100/metrics;
-+    }
-+
-+    location /nginx-metrics {
-+        proxy_pass http://localhost:9113/metrics;
-+    }
-+
-+    location /mysql-metrics {
-+        proxy_pass http://localhost:9104/metrics;
-+    }
-+
-+    location /bind-metrics {
-+        proxy_pass http://localhost:9119/metrics;
-+    }
-+
-+
-+    location /keepalived-metrics {
-+        proxy_pass http://localhost:9165/metrics;
-+    }
-+
-+    location /haproxy-metrics {
-+        proxy_pass http://localhost:88/metrics;
-+    }
-+
- }
- 
-+server {
-+    listen 8080;
- 
--# Virtual Host configuration for example.com
--#
--# You can move that to a different file under sites-available/ and symlink that
--# to sites-enabled/ to enable it.
--#
--#server {
--#	listen 80;
--#	listen [::]:80;
--#
--#	server_name example.com;
--#
--#	root /var/www/example.com;
--#	index index.html;
--#
--#	location / {
--#		try_files $uri $uri/ =404;
--#	}
--#}
-+    location /stub_status {
-+        stub_status;
-+        allow 127.0.0.1;
-+    }
-+}
-\ No newline at end of file
-
-changed: [vm1]
---- before: /etc/nginx/sites-enabled/default
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpha9j5vcc/default
-@@ -1,91 +1,78 @@
--##
--# You should look at the following URL's in order to grasp a solid understanding
--# of Nginx configuration files in order to fully unleash the power of Nginx.
--# https://www.nginx.com/resources/wiki/start/
--# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
--# https://wiki.debian.org/Nginx/DirectoryStructure
--#
--# In most cases, administrators will remove this file from sites-enabled/ and
--# leave it as reference inside of sites-available where it will continue to be
--# updated by the nginx packaging team.
--#
--# This file will automatically load configuration files provided by other
--# applications, such as Drupal or Wordpress. These applications will be made
--# available underneath a path with that package name, such as /drupal8.
--#
--# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
--##
-+map $http_upgrade $connection_upgrade {
-+  default upgrade;
-+  '' close;
-+}
- 
--# Default server configuration
--#
-+upstream grafana {
-+  server localhost:3000;
-+}
-+
- server {
--	listen 80 default_server;
--	listen [::]:80 default_server;
--
--	# SSL configuration
--	#
--	# listen 443 ssl default_server;
--	# listen [::]:443 ssl default_server;
--	#
--	# Note: You should disable gzip for SSL traffic.
--	# See: https://bugs.debian.org/773332
--	#
--	# Read up on ssl_ciphers to ensure a secure configuration.
--	# See: https://bugs.debian.org/765782
--	#
--	# Self signed certs generated by the ssl-cert package
--	# Don't use them in a production server!
--	#
--	# include snippets/snakeoil.conf;
--
--	root /var/www/html;
--
--	# Add index.php to the list if you are using PHP
--	index index.html index.htm index.nginx-debian.html;
--
-+    listen 80 default_server;
- 	server_name _;
- 
--	location / {
--		# First attempt to serve request as file, then
--		# as directory, then fall back to displaying a 404.
--		try_files $uri $uri/ =404;
--	}
-+    location / {
-+            root /var/www/html;
-+            try_files $uri $uri/ =404;
++        root /var/www/html;
++        try_files $uri $uri/ =404;
 +    }
  
 -	# pass PHP scripts to FastCGI server
@@ -709,6 +532,10 @@ changed: [vm1]
 +        proxy_pass http://localhost:9119/metrics;
 +    }
 +
++    location /influxdb {
++        proxy_pass http://localhost:8086;
++    }
++
 +    location /influxdb-metrics {
 +        proxy_pass http://localhost:9424/metrics;
 +    }
@@ -747,8 +574,8 @@ changed: [vm1]
 
 changed: [vm3]
 --- before: /etc/nginx/sites-enabled/default
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpocfwmla2/default
-@@ -1,91 +1,54 @@
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpsm6k7bhy/default
+@@ -1,91 +1,55 @@
 -##
 -# You should look at the following URL's in order to grasp a solid understanding
 -# of Nginx configuration files in order to fully unleash the power of Nginx.
@@ -811,7 +638,8 @@ changed: [vm3]
 -		try_files $uri $uri/ =404;
 -	}
 +    location / {
-+            proxy_pass http://localhost:5000;
++        root /var/www/html;
++        try_files $uri $uri/ =404;
 +    }
  
 -	# pass PHP scripts to FastCGI server
@@ -888,29 +716,193 @@ changed: [vm3]
 \ No newline at end of file
 
 changed: [vm2]
+--- before: /etc/nginx/sites-enabled/default
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp30qu1wm3/default
+@@ -1,91 +1,55 @@
+-##
+-# You should look at the following URL's in order to grasp a solid understanding
+-# of Nginx configuration files in order to fully unleash the power of Nginx.
+-# https://www.nginx.com/resources/wiki/start/
+-# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+-# https://wiki.debian.org/Nginx/DirectoryStructure
+-#
+-# In most cases, administrators will remove this file from sites-enabled/ and
+-# leave it as reference inside of sites-available where it will continue to be
+-# updated by the nginx packaging team.
+-#
+-# This file will automatically load configuration files provided by other
+-# applications, such as Drupal or Wordpress. These applications will be made
+-# available underneath a path with that package name, such as /drupal8.
+-#
+-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+-##
++map $http_upgrade $connection_upgrade {
++  default upgrade;
++  '' close;
++}
+ 
+-# Default server configuration
+-#
++upstream grafana {
++  server localhost:3000;
++}
++
+ server {
+-	listen 80 default_server;
+-	listen [::]:80 default_server;
+-
+-	# SSL configuration
+-	#
+-	# listen 443 ssl default_server;
+-	# listen [::]:443 ssl default_server;
+-	#
+-	# Note: You should disable gzip for SSL traffic.
+-	# See: https://bugs.debian.org/773332
+-	#
+-	# Read up on ssl_ciphers to ensure a secure configuration.
+-	# See: https://bugs.debian.org/765782
+-	#
+-	# Self signed certs generated by the ssl-cert package
+-	# Don't use them in a production server!
+-	#
+-	# include snippets/snakeoil.conf;
+-
+-	root /var/www/html;
+-
+-	# Add index.php to the list if you are using PHP
+-	index index.html index.htm index.nginx-debian.html;
+-
++    listen 80 default_server;
+ 	server_name _;
+ 
+-	location / {
+-		# First attempt to serve request as file, then
+-		# as directory, then fall back to displaying a 404.
+-		try_files $uri $uri/ =404;
+-	}
++    location / {
++        root /var/www/html;
++        try_files $uri $uri/ =404;
++    }
+ 
+-	# pass PHP scripts to FastCGI server
+-	#
+-	#location ~ \.php$ {
+-	#	include snippets/fastcgi-php.conf;
+-	#
+-	#	# With php-fpm (or other unix sockets):
+-	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+-	#	# With php-cgi (or other tcp sockets):
+-	#	fastcgi_pass 127.0.0.1:9000;
+-	#}
+ 
+-	# deny access to .htaccess files, if Apache's document root
+-	# concurs with nginx's one
+-	#
+-	#location ~ /\.ht {
+-	#	deny all;
+-	#}
++
++    location /node-metrics {
++        proxy_pass http://localhost:9100/metrics;
++    }
++
++    location /nginx-metrics {
++        proxy_pass http://localhost:9113/metrics;
++    }
++
++    location /mysql-metrics {
++        proxy_pass http://localhost:9104/metrics;
++    }
++
++    location /bind-metrics {
++        proxy_pass http://localhost:9119/metrics;
++    }
++
++
++    location /keepalived-metrics {
++        proxy_pass http://localhost:9165/metrics;
++    }
++
++    location /haproxy-metrics {
++        proxy_pass http://localhost:88/metrics;
++    }
++
+ }
+ 
++server {
++    listen 8080;
+ 
+-# Virtual Host configuration for example.com
+-#
+-# You can move that to a different file under sites-available/ and symlink that
+-# to sites-enabled/ to enable it.
+-#
+-#server {
+-#	listen 80;
+-#	listen [::]:80;
+-#
+-#	server_name example.com;
+-#
+-#	root /var/www/example.com;
+-#	index index.html;
+-#
+-#	location / {
+-#		try_files $uri $uri/ =404;
+-#	}
+-#}
++    location /stub_status {
++        stub_status;
++        allow 127.0.0.1;
++    }
++}
+\ No newline at end of file
+
+changed: [vm1]
 
 TASK [nginx : Start and enable nginx service] **********************************
-ok: [vm3]
 ok: [vm1]
 ok: [vm2]
+ok: [vm3]
 
 TASK [nginx_exporter : install prometheus nginx exporter] **********************
 The following NEW packages will be installed:
   prometheus-nginx-exporter
 0 upgraded, 1 newly installed, 0 to remove and 231 not upgraded.
+changed: [vm2]
+The following NEW packages will be installed:
+  prometheus-nginx-exporter
+0 upgraded, 1 newly installed, 0 to remove and 231 not upgraded.
 changed: [vm1]
 The following NEW packages will be installed:
   prometheus-nginx-exporter
 0 upgraded, 1 newly installed, 0 to remove and 231 not upgraded.
 changed: [vm3]
-The following NEW packages will be installed:
-  prometheus-nginx-exporter
-0 upgraded, 1 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm2]
 
 TASK [nginx_exporter : copy over nginx exporter defaults file] *****************
 --- before: /etc/default/prometheus-nginx-exporter
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmppocvbkgn/exporter_default
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp7xijg7p6/exporter_default
+@@ -1,14 +1 @@
+-ARGS=""
+-
+-# Prometheus-nginx-exporter supports the following options:
+-#  -nginx.plus
+-#        Start the exporter for NGINX Plus. By default, the exporter is started
+-#        for NGINX.
+-#  -nginx.scrape-uri string
+-#        A URI for scraping NGINX or NGINX Plus metrics.
+-#        For NGINX, the stub_status page must be available through the URI.
+-#        For NGINX Plus -- the API. (default "http://127.0.0.1:8080/stub_status")
+-#  -web.listen-address string
+-#        An address to listen on for web interface and telemetry. (default ":9113")
+-#  -web.telemetry-path string
+-#        A path under which to expose metrics. (default "/metrics"
++ARGS="-web.listen-address=':9113'"
+\ No newline at end of file
+
+changed: [vm3]
+--- before: /etc/default/prometheus-nginx-exporter
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpuudel2qj/exporter_default
 @@ -1,14 +1 @@
 -ARGS=""
 -
@@ -931,7 +923,7 @@ TASK [nginx_exporter : copy over nginx exporter defaults file] *****************
 
 changed: [vm1]
 --- before: /etc/default/prometheus-nginx-exporter
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpcu0b3k2a/exporter_default
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp5p6znkca/exporter_default
 @@ -1,14 +1 @@
 -ARGS=""
 -
@@ -951,27 +943,6 @@ changed: [vm1]
 \ No newline at end of file
 
 changed: [vm2]
---- before: /etc/default/prometheus-nginx-exporter
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp9i_upfm_/exporter_default
-@@ -1,14 +1 @@
--ARGS=""
--
--# Prometheus-nginx-exporter supports the following options:
--#  -nginx.plus
--#        Start the exporter for NGINX Plus. By default, the exporter is started
--#        for NGINX.
--#  -nginx.scrape-uri string
--#        A URI for scraping NGINX or NGINX Plus metrics.
--#        For NGINX, the stub_status page must be available through the URI.
--#        For NGINX Plus -- the API. (default "http://127.0.0.1:8080/stub_status")
--#  -web.listen-address string
--#        An address to listen on for web interface and telemetry. (default ":9113")
--#  -web.telemetry-path string
--#        A path under which to expose metrics. (default "/metrics"
-+ARGS="-web.listen-address=':9113'"
-\ No newline at end of file
-
-changed: [vm3]
 
 TASK [nginx_exporter : start enable exporter] **********************************
 changed: [vm1]
@@ -979,14 +950,14 @@ changed: [vm3]
 changed: [vm2]
 
 RUNNING HANDLER [nginx : Restart nginx on config change] ***********************
-changed: [vm1]
-changed: [vm2]
 changed: [vm3]
+changed: [vm2]
+changed: [vm1]
 
 RUNNING HANDLER [nginx_exporter : Restart nginx exporter] **********************
 changed: [vm1]
-changed: [vm2]
 changed: [vm3]
+changed: [vm2]
 
 PLAY [Database Server] *********************************************************
 
@@ -1013,7 +984,7 @@ The following NEW packages will be installed:
   mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server
   mysql-server-8.0 mysql-server-core-8.0 python3-pymysql
 0 upgraded, 25 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm2]
+changed: [vm1]
 The following additional packages will be installed:
   libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.1-7
   libevent-pthreads-2.1-7 libfcgi-perl libhtml-parser-perl libhtml-tagset-perl
@@ -1032,7 +1003,7 @@ The following NEW packages will be installed:
   mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server
   mysql-server-8.0 mysql-server-core-8.0 python3-pymysql
 0 upgraded, 25 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm1]
+changed: [vm2]
 
 TASK [mysql : Start and enable service 'mysql'] ********************************
 ok: [vm2]
@@ -1040,7 +1011,7 @@ ok: [vm1]
 
 TASK [mysql : override conf] ***************************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpdgkncqjr/mysql.cnf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp6udne5jz/mysql.cnf
 @@ -0,0 +1,7 @@
 +[mysqld]
 +bind_address = 0.0.0.0
@@ -1048,23 +1019,23 @@ TASK [mysql : override conf] ***************************************************
 +relay-log = /var/log/mysql/mysql-relay.log
 +port = 3306
 +replicate-do-db = agama
-+server-id = 155
-\ No newline at end of file
-
-changed: [vm1]
---- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpgj1vxnsg/mysql.cnf
-@@ -0,0 +1,7 @@
-+[mysqld]
-+bind_address = 0.0.0.0
-+log-bin = /var/log/mysql/mysql-bin.log
-+relay-log = /var/log/mysql/mysql-relay.log
-+port = 3306
-+replicate-do-db = agama
-+server-id = 94
++server-id = 53
 \ No newline at end of file
 
 changed: [vm2]
+--- before
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp92y_jbz7/mysql.cnf
+@@ -0,0 +1,7 @@
++[mysqld]
++bind_address = 0.0.0.0
++log-bin = /var/log/mysql/mysql-bin.log
++relay-log = /var/log/mysql/mysql-relay.log
++port = 3306
++replicate-do-db = agama
++server-id = 131
+\ No newline at end of file
+
+changed: [vm1]
 
 TASK [mysql : create MySQL database 'agama'] ***********************************
 changed: [vm1]
@@ -1075,8 +1046,8 @@ changed: [vm2]
 changed: [vm1]
 
 TASK [mysql : create MySQL user 'replication'] *********************************
-changed: [vm1]
 changed: [vm2]
+changed: [vm1]
 
 TASK [mysql : set replica read only] *******************************************
 changed: [vm2]
@@ -1092,25 +1063,25 @@ The following additional packages will be installed:
 The following NEW packages will be installed:
   daemon prometheus-mysqld-exporter
 0 upgraded, 2 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm1]
+changed: [vm2]
 The following additional packages will be installed:
   daemon
 The following NEW packages will be installed:
   daemon prometheus-mysqld-exporter
 0 upgraded, 2 newly installed, 0 to remove and 231 not upgraded.
-changed: [vm2]
+changed: [vm1]
 
 TASK [mysql_exporter : create MySQL user for exporter] *************************
 changed: [vm1]
 changed: [vm2]
 
 TASK [mysql_exporter : grant mysql exporter user access] ***********************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql_exporter : copy over mysql exporter defaults file] *****************
-changed: [vm2]
 changed: [vm1]
+changed: [vm2]
 
 TASK [mysql_exporter : start enable mysql exporter service] ********************
 ok: [vm1]
@@ -1159,12 +1130,13 @@ changed: [vm1]
 changed: [vm2]
 
 TASK [mysql_backup : create folder for mysql dump on backup server] ************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql_backup : set up cron task for database backup] *********************
+changed: [vm2]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp1qpa5nrq/mysql-backup-cron
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpa51w059k/mysql-backup-cron
 @@ -0,0 +1,4 @@
 +0 2 * * * backup rm -rf /home/backup/mysql/*; mysqldump agama > /home/backup/mysql/agama-`date +\%Y\%m\%d\%H\%M\%S`.sql
 +
@@ -1172,15 +1144,14 @@ TASK [mysql_backup : set up cron task for database backup] *********************
 +20 2 * * 1-6 backup  duplicity --no-encryption incremental /home/backup/mysql/ rsync://Hattyot@backup//home/Hattyot/mysql
 
 changed: [vm1]
-changed: [vm2]
 
 RUNNING HANDLER [mysql : Restart mysql on config change] ***********************
 changed: [vm1]
 changed: [vm2]
 
 RUNNING HANDLER [mysql : Restart mysql exporter on config change] **************
-changed: [vm1]
 changed: [vm2]
+changed: [vm1]
 
 RUNNING HANDLER [mysql : Reset MySQL source] ***********************************
 skipping: [vm1] => (item=stopreplica) 
@@ -1201,8 +1172,8 @@ changed: [vm1] => (item=None)
 changed: [vm1]
 
 RUNNING HANDLER [mysql_exporter : Restart mysql exporter] **********************
-changed: [vm2]
 changed: [vm1]
+changed: [vm2]
 
 PLAY [agama] *******************************************************************
 
@@ -1220,7 +1191,7 @@ TASK [agama : ensure /opt/agama exists] ****************************************
 +    "state": "directory"
  }
 
-changed: [vm1]
+changed: [vm2]
 --- before
 +++ after
 @@ -1,4 +1,4 @@
@@ -1230,7 +1201,7 @@ changed: [vm1]
 +    "state": "directory"
  }
 
-changed: [vm2]
+changed: [vm1]
 
 TASK [agama : get agama Dockerfile] ********************************************
 changed: [vm1]
@@ -1249,16 +1220,8 @@ ok: [vm2]
 ok: [vm1]
 
 TASK [agama : deploy agama container] ******************************************
-[WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: agama_database_uri.stdout !=
-'mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{
-mysql_port }}/{{ mysql_database }}'
-[WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: agama_database_uri.stdout !=
-'mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{
-mysql_port }}/{{ mysql_database }}'
-changed: [vm1] => (item=None)
 changed: [vm2] => (item=None)
+changed: [vm1] => (item=None)
 changed: [vm1] => (item=None)
 changed: [vm1]
 changed: [vm2] => (item=None)
@@ -1291,7 +1254,7 @@ The following NEW packages will be installed:
 The following packages will be upgraded:
   bind9-dnsutils bind9-libs
 2 upgraded, 4 newly installed, 0 to remove and 229 not upgraded.
-changed: [vm2]
+changed: [vm1]
 The following additional packages will be installed:
   bind9-dnsutils bind9-libs bind9-utils python3-ply
 Suggested packages:
@@ -1301,43 +1264,43 @@ The following NEW packages will be installed:
 The following packages will be upgraded:
   bind9-dnsutils bind9-libs
 2 upgraded, 4 newly installed, 0 to remove and 229 not upgraded.
-changed: [vm1]
+changed: [vm2]
 
 TASK [bind : check if domain has changed] **************************************
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: old_domain_name.stdout != '{{
 domain_name }}'
-changed: [vm3]
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: old_domain_name.stdout != '{{
 domain_name }}'
 changed: [vm2]
+changed: [vm1]
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: old_domain_name.stdout != '{{
 domain_name }}'
-changed: [vm1]
+changed: [vm3]
 
 TASK [bind : delete old masters] ***********************************************
-ok: [vm2] => (item=sillyhat.io)
 ok: [vm1] => (item=sillyhat.io)
 ok: [vm3] => (item=sillyhat.io)
-ok: [vm2] => (item=42.168.192)
+ok: [vm2] => (item=sillyhat.io)
 ok: [vm1] => (item=42.168.192)
+ok: [vm2] => (item=42.168.192)
 ok: [vm3] => (item=42.168.192)
-ok: [vm2] => (item=.)
-ok: [vm3] => (item=.)
 ok: [vm1] => (item=.)
+ok: [vm3] => (item=.)
+ok: [vm2] => (item=.)
 
 TASK [bind : copy over config] *************************************************
+changed: [vm1]
 changed: [vm3]
 changed: [vm2]
-changed: [vm1]
 
 TASK [bind : master zone config] ***********************************************
 skipping: [vm1]
 skipping: [vm2]
 --- before: /etc/bind/named.conf.local
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp9bdn1ua_/named.conf.local
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpoj2ythpi/named.conf.local
 @@ -1,8 +1,13 @@
 -//
 -// Do any local configuration here
@@ -1366,12 +1329,12 @@ changed: [vm3]
 TASK [bind : slave zone config] ************************************************
 skipping: [vm3]
 --- before: /etc/bind/named.conf.local
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp00g3zp7_/named.conf.local.slave
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmprzekrhh1/named.conf.local.slave
 @@ -1,8 +1,20 @@
 -//
 -// Do any local configuration here
 -//
-+server  192.168.42.107 {
++server  192.168.42.127 {
 +     keys { transfer.key; };
 +};
  
@@ -1383,7 +1346,7 @@ skipping: [vm3]
 +  type slave;
 +  file "/var/cache/bind/db.sillyhat.io";
 +  masters {
-+            192.168.42.107;
++            192.168.42.127;
 +      };
 +};
 +
@@ -1391,44 +1354,44 @@ skipping: [vm3]
 +  type slave;
 +  file "/var/cache/bind/db.42.168.192";
 +  masters {
-+            192.168.42.107;
-+      };
-+};
-\ No newline at end of file
-
-changed: [vm2]
---- before: /etc/bind/named.conf.local
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp5r_0ers3/named.conf.local.slave
-@@ -1,8 +1,20 @@
--//
--// Do any local configuration here
--//
-+server  192.168.42.107 {
-+     keys { transfer.key; };
-+};
- 
--// Consider adding the 1918 zones here, if they are not used in your
--// organization
--//include "/etc/bind/zones.rfc1918";
- 
-+zone "sillyhat.io" {
-+  type slave;
-+  file "/var/cache/bind/db.sillyhat.io";
-+  masters {
-+            192.168.42.107;
-+      };
-+};
-+
-+zone "42.168.192.in-addr.arpa" {
-+  type slave;
-+  file "/var/cache/bind/db.42.168.192";
-+  masters {
-+            192.168.42.107;
++            192.168.42.127;
 +      };
 +};
 \ No newline at end of file
 
 changed: [vm1]
+--- before: /etc/bind/named.conf.local
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp8unkq3n0/named.conf.local.slave
+@@ -1,8 +1,20 @@
+-//
+-// Do any local configuration here
+-//
++server  192.168.42.127 {
++     keys { transfer.key; };
++};
+ 
+-// Consider adding the 1918 zones here, if they are not used in your
+-// organization
+-//include "/etc/bind/zones.rfc1918";
+ 
++zone "sillyhat.io" {
++  type slave;
++  file "/var/cache/bind/db.sillyhat.io";
++  masters {
++            192.168.42.127;
++      };
++};
++
++zone "42.168.192.in-addr.arpa" {
++  type slave;
++  file "/var/cache/bind/db.42.168.192";
++  masters {
++            192.168.42.127;
++      };
++};
+\ No newline at end of file
+
+changed: [vm2]
 
 TASK [bind : rndc reload] ******************************************************
 changed: [vm2]
@@ -1436,9 +1399,9 @@ changed: [vm1]
 changed: [vm3]
 
 TASK [bind : restart bind9] ****************************************************
-changed: [vm2]
-changed: [vm3]
 changed: [vm1]
+changed: [vm3]
+changed: [vm2]
 
 TASK [bind : Add masters bind9 db] *********************************************
 skipping: [vm1] => (item=['master.db', 'sillyhat.io']) 
@@ -1446,7 +1409,7 @@ skipping: [vm1] => (item=['reverse-master.db', '42.168.192'])
 skipping: [vm2] => (item=['master.db', 'sillyhat.io']) 
 skipping: [vm2] => (item=['reverse-master.db', '42.168.192']) 
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp7l8wqved/master.db
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpuytrl76i/master.db
 @@ -0,0 +1,17 @@
 +$TTL	604800
 +sillyhat.io.	IN	SOA	sillyhat.io. ssaart.sillyhat.io. (
@@ -1461,14 +1424,14 @@ skipping: [vm2] => (item=['reverse-master.db', '42.168.192'])
 +sillyhat.io.	IN	NS	vm2.sillyhat.io.
 +sillyhat.io.	IN	NS	vm3.sillyhat.io.
 +
-+vm1	IN	A	192.168.42.155
-+vm2	IN	A	192.168.42.94
-+vm3	IN	A	192.168.42.107
++vm1	IN	A	192.168.42.131
++vm2	IN	A	192.168.42.53
++vm3	IN	A	192.168.42.127
 +
 
 changed: [vm3] => (item=['master.db', 'sillyhat.io'])
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpgjfr3pig/reverse-master.db
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp71fc_zxh/reverse-master.db
 @@ -0,0 +1,15 @@
 +$TTL	604800
 +42.168.192.in-addr.arpa.	IN	SOA	vm1.sillyhat.io. ssaart.sillyhat.io. (
@@ -1482,16 +1445,16 @@ changed: [vm3] => (item=['master.db', 'sillyhat.io'])
 +
 +$ORIGIN 42.168.192.in-addr.arpa.
 +
-+155	IN	PTR	vm1.sillyhat.io
-+94	IN	PTR	vm2.sillyhat.io
-+107	IN	PTR	vm3.sillyhat.io
++131	IN	PTR	vm1.sillyhat.io
++53	IN	PTR	vm2.sillyhat.io
++127	IN	PTR	vm3.sillyhat.io
 
 changed: [vm3] => (item=['reverse-master.db', '42.168.192'])
 
 TASK [bind : start enable bind9] ***********************************************
 ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
 
 TASK [bind : rndc reload] ******************************************************
 skipping: [vm1]
@@ -1545,8 +1508,8 @@ ok: [vm1] => (item={'cname': 'node', 'group': 'all'})
 ok: [vm3] => (item={'cname': 'nginx', 'group': 'nginx'})
 ok: [vm2] => (item={'cname': 'node', 'group': 'all'})
 ok: [vm1] => (item={'cname': 'keepalived', 'group': 'keepalived'})
-ok: [vm2] => (item={'cname': 'keepalived', 'group': 'keepalived'})
 ok: [vm3] => (item={'cname': 'node', 'group': 'all'})
+ok: [vm2] => (item={'cname': 'keepalived', 'group': 'keepalived'})
 ok: [vm3] => (item={'cname': 'keepalived', 'group': 'keepalived'})
 
 TASK [bind : cname records] ****************************************************
@@ -1557,7 +1520,6 @@ skipping: [vm1] => (item=None)
 skipping: [vm1] => (item=None) 
 skipping: [vm1] => (item=None) 
 skipping: [vm1] => (item=None) 
-skipping: [vm1] => (item=None) 
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: {{ inventory_hostname ==
 groups['dns_master'][0] }}
@@ -1566,12 +1528,24 @@ skipping: [vm1] => (item=None)
 skipping: [vm1] => (item=None) 
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: {{ inventory_hostname ==
 groups['dns_master'][0] }}
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
@@ -1579,27 +1553,16 @@ skipping: [vm2] => (item=None)
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm2] => (item=None) 
 skipping: [vm1]
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
 skipping: [vm2]
 changed: [vm3] => (item=None)
 changed: [vm3] => (item=None)
@@ -1624,13 +1587,13 @@ changed: [vm3] => (item=None)
 changed: [vm3]
 
 TASK [dns : disable systemd-resolved] ******************************************
-changed: [vm2]
-changed: [vm1]
 changed: [vm3]
+changed: [vm1]
+changed: [vm2]
 
 TASK [dns : copy resolv.conf] **************************************************
 --- before: /etc/resolv.conf
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpdhr9jhj7/resolv.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmptqjvr9j5/resolv.conf
 @@ -1,19 +1,3 @@
 -# This file is managed by man:systemd-resolved(8). Do not edit.
 -#
@@ -1651,42 +1614,14 @@ TASK [dns : copy resolv.conf] **************************************************
 -nameserver 127.0.0.53
 -options edns0 trust-ad
 -search openstacklocal
-+nameserver 192.168.42.155
-+nameserver 192.168.42.94
-+search sillyhat.io
-\ No newline at end of file
-
-changed: [vm2]
---- before: /etc/resolv.conf
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp3795mw7w/resolv.conf
-@@ -1,19 +1,3 @@
--# This file is managed by man:systemd-resolved(8). Do not edit.
--#
--# This is a dynamic resolv.conf file for connecting local clients to the
--# internal DNS stub resolver of systemd-resolved. This file lists all
--# configured search domains.
--#
--# Run "resolvectl status" to see details about the uplink DNS servers
--# currently in use.
--#
--# Third party programs must not access this file directly, but only through the
--# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
--# replace this symlink by a static file or a different symlink.
--#
--# See man:systemd-resolved.service(8) for details about the supported modes of
--# operation for /etc/resolv.conf.
--
--nameserver 127.0.0.53
--options edns0 trust-ad
--search openstacklocal
-+nameserver 192.168.42.155
-+nameserver 192.168.42.94
++nameserver 192.168.42.131
++nameserver 192.168.42.53
 +search sillyhat.io
 \ No newline at end of file
 
 changed: [vm1]
 --- before: /etc/resolv.conf
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpc375f51p/resolv.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpr2ben6fr/resolv.conf
 @@ -1,19 +1,3 @@
 -# This file is managed by man:systemd-resolved(8). Do not edit.
 -#
@@ -1707,12 +1642,40 @@ changed: [vm1]
 -nameserver 127.0.0.53
 -options edns0 trust-ad
 -search openstacklocal
-+nameserver 192.168.42.155
-+nameserver 192.168.42.94
++nameserver 192.168.42.131
++nameserver 192.168.42.53
 +search sillyhat.io
 \ No newline at end of file
 
 changed: [vm3]
+--- before: /etc/resolv.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpy_tgnacp/resolv.conf
+@@ -1,19 +1,3 @@
+-# This file is managed by man:systemd-resolved(8). Do not edit.
+-#
+-# This is a dynamic resolv.conf file for connecting local clients to the
+-# internal DNS stub resolver of systemd-resolved. This file lists all
+-# configured search domains.
+-#
+-# Run "resolvectl status" to see details about the uplink DNS servers
+-# currently in use.
+-#
+-# Third party programs must not access this file directly, but only through the
+-# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
+-# replace this symlink by a static file or a different symlink.
+-#
+-# See man:systemd-resolved.service(8) for details about the supported modes of
+-# operation for /etc/resolv.conf.
+-
+-nameserver 127.0.0.53
+-options edns0 trust-ad
+-search openstacklocal
++nameserver 192.168.42.131
++nameserver 192.168.42.53
++search sillyhat.io
+\ No newline at end of file
+
+changed: [vm2]
 
 TASK [bind_exporter : install prometheus bind9 exporter] ***********************
 The following NEW packages will be installed:
@@ -1730,38 +1693,7 @@ changed: [vm2]
 
 TASK [bind_exporter : copy over bind9 exporter defaults file] ******************
 --- before: /etc/default/prometheus-bind-exporter
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpaj_kilud/bind_exporter_defaults
-@@ -1,24 +1 @@
--# Set the command-line arguments to pass to the server.
--ARGS=''
--
--# Usage of prometheus-bind-exporter:
--#  -bind.pid-file string
--#    	Path to Bind's pid file to export process information.
--#  -bind.stats-groups value
--#    	Comma-separated list of statistics to collect. Available: [server, view, tasks] (default "server,view")
--#  -bind.stats-url string
--#    	HTTP XML API address of an Bind server. (default "http://localhost:8053/")
--#  -bind.stats-version string
--#    	BIND statistics version. Can be detected automatically. Available: [xml.v2, xml.v3, auto] (default "auto")
--#  -bind.timeout duration
--#    	Timeout for trying to get stats from Bind. (default 10s)
--#  -log.format value
--#    	Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true" (default "logger:stderr")
--#  -log.level value
--#    	Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal] (default "info")
--#  -version
--#    	Print version information.
--#  -web.listen-address string
--#    	Address to listen on for web interface and telemetry. (default ":9119")
--#  -web.telemetry-path string
--#    	Path under which to expose metrics. (default "/metrics")
-+ARGS='-web.listen-address=":9119"'
-\ No newline at end of file
-
-changed: [vm1]
---- before: /etc/default/prometheus-bind-exporter
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpa531s_ng/bind_exporter_defaults
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp9z3stzmq/bind_exporter_defaults
 @@ -1,24 +1 @@
 -# Set the command-line arguments to pass to the server.
 -ARGS=''
@@ -1792,7 +1724,38 @@ changed: [vm1]
 
 changed: [vm2]
 --- before: /etc/default/prometheus-bind-exporter
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp1j96nt2v/bind_exporter_defaults
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpbja12dpw/bind_exporter_defaults
+@@ -1,24 +1 @@
+-# Set the command-line arguments to pass to the server.
+-ARGS=''
+-
+-# Usage of prometheus-bind-exporter:
+-#  -bind.pid-file string
+-#    	Path to Bind's pid file to export process information.
+-#  -bind.stats-groups value
+-#    	Comma-separated list of statistics to collect. Available: [server, view, tasks] (default "server,view")
+-#  -bind.stats-url string
+-#    	HTTP XML API address of an Bind server. (default "http://localhost:8053/")
+-#  -bind.stats-version string
+-#    	BIND statistics version. Can be detected automatically. Available: [xml.v2, xml.v3, auto] (default "auto")
+-#  -bind.timeout duration
+-#    	Timeout for trying to get stats from Bind. (default 10s)
+-#  -log.format value
+-#    	Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true" (default "logger:stderr")
+-#  -log.level value
+-#    	Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal] (default "info")
+-#  -version
+-#    	Print version information.
+-#  -web.listen-address string
+-#    	Address to listen on for web interface and telemetry. (default ":9119")
+-#  -web.telemetry-path string
+-#    	Path under which to expose metrics. (default "/metrics")
++ARGS='-web.listen-address=":9119"'
+\ No newline at end of file
+
+changed: [vm1]
+--- before: /etc/default/prometheus-bind-exporter
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpnh5bdtl3/bind_exporter_defaults
 @@ -1,24 +1 @@
 -# Set the command-line arguments to pass to the server.
 -ARGS=''
@@ -1825,26 +1788,26 @@ changed: [vm3]
 
 TASK [bind_exporter : start enable prometheus-bind-exporter] *******************
 ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
 
 RUNNING HANDLER [bind : restart bind9] *****************************************
+changed: [vm1]
 changed: [vm3]
 changed: [vm2]
-changed: [vm1]
 
 RUNNING HANDLER [bind : rndc reload] *******************************************
 changed: [vm3]
 
 RUNNING HANDLER [bind : restart named] *****************************************
-changed: [vm3]
 changed: [vm2]
 changed: [vm1]
+changed: [vm3]
 
 RUNNING HANDLER [bind_exporter : Restart bind exporter] ************************
 changed: [vm2]
-changed: [vm3]
 changed: [vm1]
+changed: [vm3]
 
 PLAY [Prometheus] **************************************************************
 
@@ -1887,7 +1850,7 @@ changed: [vm3]
 
 TASK [prometheus : set prometheus conf] ****************************************
 --- before: /etc/prometheus/prometheus.yml
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpwha3rmlo/prometheus.yml
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpc97ewqjx/prometheus.yml
 @@ -1,44 +1,51 @@
 -# Sample config for Prometheus.
 -
@@ -1974,7 +1937,7 @@ changed: [vm3]
 
 TASK [prometheus : change prometheus default args] *****************************
 --- before: /etc/default/prometheus
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpylx0prvh/prometheus_default
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpdfyu4oh1/prometheus_default
 @@ -1,57 +1 @@
 -# Set the command-line arguments to pass to the server.
 -ARGS=""
@@ -2033,7 +1996,7 @@ TASK [prometheus : change prometheus default args] *****************************
 -#                             Maximum number of queries executed concurrently.
 -#  --log.level=info           Only log messages with the given severity or
 -#                             above. One of: [debug, info, warn, error]
-+ARGS="--web.external-url=http://193.40.156.67:10780/prometheus --web.listen-address="0.0.0.0:9090""
++ARGS="--web.external-url=http://193.40.156.67:12780/prometheus --web.listen-address="0.0.0.0:9090""
 \ No newline at end of file
 
 changed: [vm3]
@@ -2094,7 +2057,7 @@ changed: [vm3]
 
 TASK [influxdb : copy over influxdb conf] **************************************
 --- before: /etc/influxdb/influxdb.conf
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpa1unzzaz/influxdb.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp0xvq_7_c/influxdb.conf
 @@ -1,596 +1,23 @@
 -### Welcome to the InfluxDB configuration file.
 -
@@ -2704,7 +2667,7 @@ changed: [vm3]
 
 TASK [influxdb_exporter : copy over influxdb stats exporter service] ***********
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpkzkfot61/prometheus_influxdb_stats_exporter.service
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp4n_zwghb/prometheus_influxdb_stats_exporter.service
 @@ -0,0 +1,11 @@
 +[Unit]
 +Description=influxdb stats exporter service
@@ -2758,15 +2721,15 @@ ok: [vm3]
 
 TASK [influxdb_backup : set up cron task for database backup] ******************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpjzz271n5/influxdb-backup-cron
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpy0pveogg/influxdb-backup-cron
 @@ -0,0 +1,7 @@
-+0 2 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -db telegraf /home/backup/influxdb/telegraf >/dev/null 2>&1
-+0 2 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -db latency /home/backup/influxdb/latency >/dev/null 2>&1
++0 2 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -db telegraf /home/backup/influxdb/telegraf
++0 2 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -db latency /home/backup/influxdb/latency
 +
-+15 2 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://Hattyot@backup//home/Hattyot/influxdb/telegraf >/dev/null 2>&1
-+15 2 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://Hattyot@backup//home/Hattyot/influxdb/latency >/dev/null 2>&1
-+20 2 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://Hattyot@backup//home/Hattyot/influxdb/telegraf >/dev/null 2>&1
-+20 2 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://Hattyot@backup//home/Hattyot/influxdb/latency >/dev/null 2>&1
++15 2 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://Hattyot@backup//home/Hattyot/influxdb/telegraf
++15 2 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://Hattyot@backup//home/Hattyot/influxdb/latency
++20 2 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://Hattyot@backup//home/Hattyot/influxdb/telegraf
++20 2 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://Hattyot@backup//home/Hattyot/influxdb/latency
 \ No newline at end of file
 
 changed: [vm3]
@@ -2812,7 +2775,7 @@ changed: [vm3]
 
 TASK [grafana : add grafana datasources] ***************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp3309plxy/datasource.yaml
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp7v97fvsw/datasource.yaml
 @@ -0,0 +1,21 @@
 +apiVersion: 1
 +
@@ -2826,13 +2789,13 @@ TASK [grafana : add grafana datasources] ***************************************
 +  - name: influxdb:latency
 +    type: influxdb
 +    access: proxy
-+    url: "http://influxdb:8086"
++    url: "http://influxdb/influxdb"
 +    editable: true
 +    database: latency
 +  - name: influxdb:telegraf
 +    type: influxdb
 +    access: proxy
-+    url: "http://influxdb:8086"
++    url: "http://influxdb/influxdb"
 +    editable: true
 +    database: telegraf
 \ No newline at end of file
@@ -4252,7 +4215,7 @@ changed: [vm3] => (item=mysql.json)
 changed: [vm3] => (item=logs.json)
 --- before
 +++ after: /home/ssaart/Documents/TTU/ica0002/roles/grafana/files/main.json
-@@ -0,0 +1,1371 @@
+@@ -0,0 +1,1292 @@
 +{
 +  "annotations": {
 +    "list": [
@@ -4351,7 +4314,7 @@ changed: [vm3] => (item=logs.json)
 +            "uid": "P1809F7CD0C75ACF3"
 +          },
 +          "exemplar": false,
-+          "expr": "(nginx_up{instance=\"nginx1:80\"}) or (nginx_up{instance=\"nginx2:80\"}) or (nginx_up{instance=\"nginx3:80\"})",
++          "expr": "(nginx_up{instance=\"nginx1:80\"} or 1-absent(nginx_up{instance=\"nginx1:80\"})) or (nginx_up{instance=\"nginx2:80\"} or 1-absent(nginx_up{instance=\"nginx2:80\"})) or (nginx_up{instance=\"nginx3:80\"} or 1-absent(nginx_up{instance=\"nginx3:80\"}))",
 +          "instant": true,
 +          "interval": "",
 +          "legendFormat": "{{instance}}",
@@ -4433,7 +4396,7 @@ changed: [vm3] => (item=logs.json)
 +            "uid": "P1809F7CD0C75ACF3"
 +          },
 +          "exemplar": false,
-+          "expr": "(bind_up{instance=\"ns1:80\"}) or (bind_up{instance=\"ns2:80\"}) or (bind_up{instance=\"ns3:80\"})",
++          "expr": "(bind_up{instance=\"ns1:80\"} or 1-absent(bind_up{instance=\"ns1:80\"})) or (bind_up{instance=\"ns2:80\"} or 1-absent(bind_up{instance=\"ns2:80\"})) or (bind_up{instance=\"ns3:80\"} or 1-absent(bind_up{instance=\"ns3:80\"}))",
 +          "instant": true,
 +          "interval": "",
 +          "legendFormat": "{{instance}}",
@@ -4523,7 +4486,7 @@ changed: [vm3] => (item=logs.json)
 +            "uid": "P1809F7CD0C75ACF3"
 +          },
 +          "exemplar": false,
-+          "expr": "(keepalived_vrrp_state{instance=\"keepalived1:80\"}) or (keepalived_vrrp_state{instance=\"keepalived2:80\"})",
++          "expr": "(keepalived_vrrp_state{instance=\"keepalived1:80\"} or 1-absent(keepalived_vrrp_state{instance=\"keepalived1:80\"})) or (keepalived_vrrp_state{instance=\"keepalived2:80\"} or 1-absent(keepalived_vrrp_state{instance=\"keepalived2:80\"}))",
 +          "instant": true,
 +          "interval": "",
 +          "legendFormat": "{{instance}}",
@@ -4544,13 +4507,17 @@ changed: [vm3] => (item=logs.json)
 +            {
 +              "options": {
 +                "0": {
-+                  "color": "dark-red",
 +                  "index": 0,
-+                  "text": "DOWN"
++                  "text": "MASTER"
 +                },
 +                "1": {
 +                  "index": 1,
-+                  "text": "UP"
++                  "text": "SLAVE"
++                },
++                "-1": {
++                  "color": "dark-red",
++                  "index": 2,
++                  "text": "DOWN"
 +                }
 +              },
 +              "type": "value"
@@ -4575,89 +4542,6 @@ changed: [vm3] => (item=logs.json)
 +        "x": 12,
 +        "y": 0
 +      },
-+      "id": 23,
-+      "options": {
-+        "colorMode": "background",
-+        "graphMode": "none",
-+        "justifyMode": "auto",
-+        "orientation": "auto",
-+        "reduceOptions": {
-+          "calcs": [
-+            "lastNotNull"
-+          ],
-+          "fields": "",
-+          "values": false
-+        },
-+        "textMode": "auto"
-+      },
-+      "pluginVersion": "8.3.3",
-+      "targets": [
-+        {
-+          "datasource": {
-+            "type": "prometheus",
-+            "uid": "P1809F7CD0C75ACF3"
-+          },
-+          "exemplar": true,
-+          "expr": "mysql_up",
-+          "interval": "",
-+          "legendFormat": "{{instance}}",
-+          "refId": "A"
-+        }
-+      ],
-+      "title": "mysql status",
-+      "transformations": [
-+        {
-+          "id": "filterFieldsByName",
-+          "options": {
-+            "include": {
-+              "names": []
-+            }
-+          }
-+        }
-+      ],
-+      "type": "stat"
-+    },
-+    {
-+      "datasource": {
-+        "type": "prometheus",
-+        "uid": "P1809F7CD0C75ACF3"
-+      },
-+      "fieldConfig": {
-+        "defaults": {
-+          "mappings": [
-+            {
-+              "options": {
-+                "0": {
-+                  "index": 0,
-+                  "text": "MASTER"
-+                },
-+                "1": {
-+                  "index": 1,
-+                  "text": "SLAVE"
-+                }
-+              },
-+              "type": "value"
-+            }
-+          ],
-+          "thresholds": {
-+            "mode": "absolute",
-+            "steps": [
-+              {
-+                "color": "dark-green",
-+                "value": null
-+              }
-+            ]
-+          },
-+          "unit": "short"
-+        },
-+        "overrides": []
-+      },
-+      "gridPos": {
-+        "h": 5,
-+        "w": 4,
-+        "x": 16,
-+        "y": 0
-+      },
 +      "id": 21,
 +      "options": {
 +        "colorMode": "background",
@@ -4680,8 +4564,9 @@ changed: [vm3] => (item=logs.json)
 +            "type": "prometheus",
 +            "uid": "P1809F7CD0C75ACF3"
 +          },
-+          "exemplar": true,
-+          "expr": "mysql_global_variables_read_only",
++          "exemplar": false,
++          "expr": "(mysql_global_variables_read_only{instance=\"mysql1:80\"} or -absent(mysql_global_variables_read_only{instance=\"mysql1:80\"})) or (mysql_global_variables_read_only{instance=\"mysql2:80\"} or -absent(mysql_global_variables_read_only{instance=\"mysql2:80\"}))",
++          "instant": true,
 +          "interval": "",
 +          "legendFormat": "{{instance}}",
 +          "refId": "A"
@@ -4746,7 +4631,7 @@ changed: [vm3] => (item=logs.json)
 +      "gridPos": {
 +        "h": 5,
 +        "w": 4,
-+        "x": 20,
++        "x": 16,
 +        "y": 0
 +      },
 +      "id": 28,
@@ -5387,7 +5272,6 @@ changed: [vm3] => (item=logs.json)
 +              "type": "fill"
 +            }
 +          ],
-+          "hide": false,
 +          "measurement": "rtt",
 +          "orderByTime": "ASC",
 +          "policy": "default",
@@ -5614,14 +5498,14 @@ changed: [vm3] => (item=logs.json)
 +    "list": []
 +  },
 +  "time": {
-+    "from": "now-1h",
++    "from": "now-5m",
 +    "to": "now"
 +  },
 +  "timepicker": {},
 +  "timezone": "",
 +  "title": "Home",
 +  "uid": "Si_ANMK7a",
-+  "version": 3,
++  "version": 4,
 +  "weekStart": ""
 +}
 \ No newline at end of file
@@ -5630,7 +5514,7 @@ changed: [vm3] => (item=main.json)
 
 TASK [grafana : add dashboard provisioning] ************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpt51evw_9/dashboard.yaml
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpju1gmgzg/dashboard.yaml
 @@ -0,0 +1,12 @@
 +apiVersion: 1
 +
@@ -5683,24 +5567,24 @@ TASK [pinger : install fping] **************************************************
 The following NEW packages will be installed:
   fping
 0 upgraded, 1 newly installed, 0 to remove and 229 not upgraded.
-changed: [vm2]
-The following NEW packages will be installed:
-  fping
-0 upgraded, 1 newly installed, 0 to remove and 229 not upgraded.
 changed: [vm1]
 The following NEW packages will be installed:
   fping
 0 upgraded, 1 newly installed, 0 to remove and 229 not upgraded.
 changed: [vm3]
+The following NEW packages will be installed:
+  fping
+0 upgraded, 1 newly installed, 0 to remove and 229 not upgraded.
+changed: [vm2]
 
 TASK [pinger : create pinger user] *********************************************
-changed: [vm2]
 changed: [vm1]
+changed: [vm2]
 changed: [vm3]
 
 TASK [pinger : copy over pinger script file] ***********************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpo4lyv09r/pinger.sh
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpae703ell/pinger.sh
 @@ -0,0 +1,26 @@
 +#!/bin/bash
 +set -x
@@ -5732,7 +5616,7 @@ TASK [pinger : copy over pinger script file] ***********************************
 
 changed: [vm1]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp34_dz_fn/pinger.sh
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp6qmxm8ea/pinger.sh
 @@ -0,0 +1,26 @@
 +#!/bin/bash
 +set -x
@@ -5764,7 +5648,7 @@ changed: [vm1]
 
 changed: [vm2]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpuoymwxtm/pinger.sh
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp7f3w0hbr/pinger.sh
 @@ -0,0 +1,26 @@
 +#!/bin/bash
 +set -x
@@ -5808,18 +5692,6 @@ TASK [pinger : ensure /etc/pinger folder exists] *******************************
 +    "state": "directory"
  }
 
-changed: [vm2]
---- before
-+++ after
-@@ -1,5 +1,5 @@
- {
--    "owner": 0,
-+    "owner": 1001,
-     "path": "/etc/pinger",
--    "state": "absent"
-+    "state": "directory"
- }
-
 changed: [vm1]
 --- before
 +++ after
@@ -5833,10 +5705,22 @@ changed: [vm1]
  }
 
 changed: [vm3]
+--- before
++++ after
+@@ -1,5 +1,5 @@
+ {
+-    "owner": 0,
++    "owner": 1001,
+     "path": "/etc/pinger",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vm2]
 
 TASK [pinger : copy over pinger conf] ******************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp36cm8s09/pinger.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp6lkcstip/pinger.conf
 @@ -0,0 +1,3 @@
 +database_url=http://vm3:8086
 +database_name=latency
@@ -5844,7 +5728,7 @@ TASK [pinger : copy over pinger conf] ******************************************
 
 changed: [vm1]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp89kkvy00/pinger.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpjzfev4qp/pinger.conf
 @@ -0,0 +1,3 @@
 +database_url=http://vm3:8086
 +database_name=latency
@@ -5852,7 +5736,7 @@ changed: [vm1]
 
 changed: [vm3]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpmxn188l2/pinger.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpl0nn1ese/pinger.conf
 @@ -0,0 +1,3 @@
 +database_url=http://vm3:8086
 +database_name=latency
@@ -5862,7 +5746,7 @@ changed: [vm2]
 
 TASK [pinger : Add pinger service] *********************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpf72x_jxg/pinger.service
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpv_rw6u3n/pinger.service
 @@ -0,0 +1,10 @@
 +[Unit]
 +Description=Pings targets and records the latency
@@ -5877,7 +5761,7 @@ TASK [pinger : Add pinger service] *********************************************
 
 changed: [vm1]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpu9vunemx/pinger.service
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpywdw31px/pinger.service
 @@ -0,0 +1,10 @@
 +[Unit]
 +Description=Pings targets and records the latency
@@ -5892,7 +5776,7 @@ changed: [vm1]
 
 changed: [vm3]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp2jgm0p3b/pinger.service
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp6jori3bz/pinger.service
 @@ -0,0 +1,10 @@
 +[Unit]
 +Description=Pings targets and records the latency
@@ -5908,20 +5792,20 @@ changed: [vm3]
 changed: [vm2]
 
 TASK [pinger : start enable pinger service] ************************************
-changed: [vm2]
-changed: [vm1]
 changed: [vm3]
+changed: [vm1]
+changed: [vm2]
 
 RUNNING HANDLER [pinger : Restart pinger service] ******************************
 changed: [vm1]
-changed: [vm2]
 changed: [vm3]
+changed: [vm2]
 
 PLAY [loadbalancer] ************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [haproxy : install haproxy] ***********************************************
 The following additional packages will be installed:
@@ -5943,7 +5827,7 @@ changed: [vm2]
 
 TASK [haproxy : set haproxy conf] **********************************************
 --- before: /etc/haproxy/haproxy.cfg
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpnw9hnozn/haproxy.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmph1dalpkx/haproxy.conf
 @@ -8,14 +8,6 @@
  	group haproxy
  	daemon
@@ -5978,7 +5862,7 @@ TASK [haproxy : set haproxy conf] **********************************************
 
 changed: [vm1]
 --- before: /etc/haproxy/haproxy.cfg
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpjcrfrtmo/haproxy.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpwrdq405f/haproxy.conf
 @@ -8,14 +8,6 @@
  	group haproxy
  	daemon
@@ -6027,7 +5911,7 @@ TASK [keepalived : ensure /etc/keepalived exists] ******************************
 +    "state": "directory"
  }
 
-changed: [vm1]
+changed: [vm2]
 --- before
 +++ after
 @@ -1,4 +1,4 @@
@@ -6037,15 +5921,15 @@ changed: [vm1]
 +    "state": "directory"
  }
 
-changed: [vm2]
+changed: [vm1]
 
 TASK [keepalived : create keepalived_script user] ******************************
-changed: [vm1]
 changed: [vm2]
+changed: [vm1]
 
 TASK [keepalived : copy over scripts] ******************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpa8qq1t9g/keepalived_script
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpsf480z10/keepalived_script
 @@ -0,0 +1,2 @@
 +#!/bin/bash
 +ss -ntl | grep -q ':88 '
@@ -6053,7 +5937,7 @@ TASK [keepalived : copy over scripts] ******************************************
 
 changed: [vm1]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpryqn057d/keepalived_script
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp0dfe05s9/keepalived_script
 @@ -0,0 +1,2 @@
 +#!/bin/bash
 +ss -ntl | grep -q ':88 '
@@ -6063,39 +5947,7 @@ changed: [vm2]
 
 TASK [keepalived : copy over keepalived conf] **********************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpl9nor1me/keepalived.conf
-@@ -0,0 +1,26 @@
-+global_defs {
-+  enable_script_security
-+}
-+
-+vrrp_script check_haproxy {
-+    script "/etc/keepalived/keepalived_script"
-+    weight 20
-+    interval 1
-+    user keepalived_script
-+}
-+
-+vrrp_instance VI_1 {
-+    interface ens3
-+    virtual_router_id 1
-+        priority 100
-+        advert_int 1
-+    virtual_ipaddress {
-+        192.168.100.155/24
-+    }
-+    unicast_peer {
-+                192.168.42.94
-+            }
-+    track_script {
-+        check_haproxy
-+    }
-+}
-\ No newline at end of file
-
-changed: [vm1]
---- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpfm0rmq0t/keepalived.conf
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpkdatios7/keepalived.conf
 @@ -0,0 +1,26 @@
 +global_defs {
 +  enable_script_security
@@ -6114,10 +5966,10 @@ changed: [vm1]
 +        priority 99
 +        advert_int 1
 +    virtual_ipaddress {
-+        192.168.100.155/24
++        192.168.100.131/24
 +    }
 +    unicast_peer {
-+                192.168.42.155
++                192.168.42.131
 +            }
 +    track_script {
 +        check_haproxy
@@ -6126,6 +5978,38 @@ changed: [vm1]
 \ No newline at end of file
 
 changed: [vm2]
+--- before
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp9s7lqlwp/keepalived.conf
+@@ -0,0 +1,26 @@
++global_defs {
++  enable_script_security
++}
++
++vrrp_script check_haproxy {
++    script "/etc/keepalived/keepalived_script"
++    weight 20
++    interval 1
++    user keepalived_script
++}
++
++vrrp_instance VI_1 {
++    interface ens3
++    virtual_router_id 1
++        priority 100
++        advert_int 1
++    virtual_ipaddress {
++        192.168.100.131/24
++    }
++    unicast_peer {
++                192.168.42.53
++            }
++    track_script {
++        check_haproxy
++    }
++}
+\ No newline at end of file
+
+changed: [vm1]
 
 TASK [keepalived : install keepalived] *****************************************
 The following additional packages will be installed:
@@ -6137,7 +6021,7 @@ The following NEW packages will be installed:
   ipvsadm keepalived libmysqlclient21 libnl-3-200 libnl-genl-3-200
   libsensors-config libsensors5 libsnmp-base libsnmp35
 0 upgraded, 9 newly installed, 0 to remove and 229 not upgraded.
-changed: [vm1]
+changed: [vm2]
 The following additional packages will be installed:
   ipvsadm libmysqlclient21 libnl-3-200 libnl-genl-3-200 libsensors-config
   libsensors5 libsnmp-base libsnmp35
@@ -6147,7 +6031,7 @@ The following NEW packages will be installed:
   ipvsadm keepalived libmysqlclient21 libnl-3-200 libnl-genl-3-200
   libsensors-config libsensors5 libsnmp-base libsnmp35
 0 upgraded, 9 newly installed, 0 to remove and 229 not upgraded.
-changed: [vm2]
+changed: [vm1]
 
 TASK [keepalived : ensure /opt/keepalived/ exists] *****************************
 --- before
@@ -6159,7 +6043,7 @@ TASK [keepalived : ensure /opt/keepalived/ exists] *****************************
 +    "state": "directory"
  }
 
-changed: [vm1]
+changed: [vm2]
 --- before
 +++ after
 @@ -1,4 +1,4 @@
@@ -6169,7 +6053,7 @@ changed: [vm1]
 +    "state": "directory"
  }
 
-changed: [vm2]
+changed: [vm1]
 
 TASK [keepalived : copy over keepalived monitoring install script] *************
 --- before
@@ -6199,7 +6083,7 @@ changed: [vm1]
 
 TASK [keepalived : Add keepalived service] *************************************
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmp5p13a86d/prometheus-keepalived-exporter.service
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmpn5n8alml/prometheus-keepalived-exporter.service
 @@ -0,0 +1,10 @@
 +[Unit]
 +Description=Prometheus keepalive exporter
@@ -6214,7 +6098,7 @@ TASK [keepalived : Add keepalived service] *************************************
 
 changed: [vm1]
 --- before
-+++ after: /home/ssaart/.ansible/tmp/ansible-local-1910zeltvue7/tmpc5t7isgd/prometheus-keepalived-exporter.service
++++ after: /home/ssaart/.ansible/tmp/ansible-local-2276747wbo4fg/tmp_12kb5hx/prometheus-keepalived-exporter.service
 @@ -0,0 +1,10 @@
 +[Unit]
 +Description=Prometheus keepalive exporter
@@ -6234,16 +6118,16 @@ changed: [vm1]
 changed: [vm2]
 
 TASK [keepalived : start enable keepalived service] ****************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [keepalived : start enable keepalived exporter service] *******************
-changed: [vm2]
 changed: [vm1]
+changed: [vm2]
 
 RUNNING HANDLER [haproxy : restart haproxy] ************************************
-changed: [vm1]
 changed: [vm2]
+changed: [vm1]
 
 RUNNING HANDLER [keepalived : restart keepalived] ******************************
 changed: [vm1]
@@ -6254,9 +6138,9 @@ changed: [vm1]
 changed: [vm2]
 
 PLAY RECAP *********************************************************************
-vm1                        : ok=105  changed=82   unreachable=0    failed=0    skipped=7    rescued=0    ignored=0   
-vm2                        : ok=105  changed=82   unreachable=0    failed=0    skipped=7    rescued=0    ignored=0   
-vm3                        : ok=97   changed=78   unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+vm1                        : ok=104  changed=81   unreachable=0    failed=0    skipped=7    rescued=0    ignored=0   
+vm2                        : ok=104  changed=81   unreachable=0    failed=0    skipped=7    rescued=0    ignored=0   
+vm3                        : ok=96   changed=77   unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 
 [WARNING]: An error occurred while calling
 ansible.utils.display.initialize_locale (unsupported locale setting). This may
@@ -6266,88 +6150,83 @@ incorrect line lengths
 PLAY [Init] ********************************************************************
 
 TASK [Gathering Facts] *********************************************************
+ok: [vm1]
 ok: [vm2]
 ok: [vm3]
-ok: [vm1]
 
 TASK [init : Update APT cache] *************************************************
-ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
+ok: [vm3]
 
 TASK [init : get current hostname] *********************************************
-ok: [vm3]
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
+ok: [vm3]
 
 TASK [init : set hostname when current one is not correct] *********************
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 skipping: [vm3]
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 skipping: [vm1]
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 skipping: [vm2]
-
-TASK [init : add hostname to /etc/hosts] ***************************************
-ok: [vm1]
-ok: [vm2]
-ok: [vm3]
 
 TASK [node_exporter : install prometheus node exporter] ************************
 ok: [vm3]
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [node_exporter : copy over defaults] **************************************
-ok: [vm3]
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
+ok: [vm3]
 
 TASK [node_exporter : start enable prometheus-node-exporter] *******************
 ok: [vm1]
-ok: [vm3]
 ok: [vm2]
+ok: [vm3]
 
 TASK [rsyslog : copy over rsyslog telegraf conf] *******************************
-ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
+ok: [vm1]
 
 TASK [rsyslog : start enable rsyslog] ******************************************
-ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
+ok: [vm3]
 
 TASK [backup : create backup user] *********************************************
-ok: [vm3]
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
+ok: [vm3]
 
 TASK [backup : ensure restore folder] ******************************************
 ok: [vm3]
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [backup : install duplicity] **********************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 ok: [vm3]
 
 TASK [backup : add known_hosts] ************************************************
-ok: [vm3]
 ok: [vm1]
+ok: [vm3]
 ok: [vm2]
 
 TASK [docker : install docker] *************************************************
 ok: [vm1]
-ok: [vm3]
 ok: [vm2]
+ok: [vm3]
 
 TASK [docker : install python3-docker] *****************************************
 ok: [vm1]
@@ -6373,75 +6252,75 @@ ok: [vm2]
 
 TASK [nginx : Replace default nginx page] **************************************
 ok: [vm3]
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [nginx : Set nginx conf] **************************************************
+ok: [vm2]
 ok: [vm3]
 ok: [vm1]
-ok: [vm2]
 
 TASK [nginx : Start and enable nginx service] **********************************
-ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
+ok: [vm3]
 
 TASK [nginx_exporter : install prometheus nginx exporter] **********************
 ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [nginx_exporter : copy over nginx exporter defaults file] *****************
-ok: [vm3]
 ok: [vm1]
+ok: [vm3]
 ok: [vm2]
 
 TASK [nginx_exporter : start enable exporter] **********************************
-ok: [vm3]
 ok: [vm2]
 ok: [vm1]
+ok: [vm3]
 
 PLAY [Database Server] *********************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql : Install mysql-server and python-mysqldb] *************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql : Start and enable service 'mysql'] ********************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql : override conf] ***************************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql : create MySQL database 'agama'] ***********************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql : create MySQL user 'agama'] ***************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql : create MySQL user 'replication'] *********************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql : set replica read only] *******************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql_exporter : copy over my.cnf for mysql exporter] ********************
 ok: [vm1]
 ok: [vm2]
 
 TASK [mysql_exporter : install prometheus mysqld exporter] *********************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql_exporter : create MySQL user for exporter] *************************
 ok: [vm1]
@@ -6452,8 +6331,8 @@ ok: [vm1]
 ok: [vm2]
 
 TASK [mysql_exporter : copy over mysql exporter defaults file] *****************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql_exporter : start enable mysql exporter service] ********************
 ok: [vm1]
@@ -6468,12 +6347,12 @@ ok: [vm2]
 ok: [vm1]
 
 TASK [mysql_backup : copy over my.cnf] *****************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql_backup : create folder for mysql dump on backup server] ************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql_backup : set up cron task for database backup] *********************
 ok: [vm1]
@@ -6482,8 +6361,8 @@ ok: [vm2]
 PLAY [agama] *******************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [agama : ensure /opt/agama exists] ****************************************
 ok: [vm1]
@@ -6498,28 +6377,20 @@ ok: [vm1]
 ok: [vm2]
 
 TASK [agama : build agama docker image] ****************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [agama : gather existing AGAMA_DATABASE_URI env variable value] ***********
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [agama : deploy agama container] ******************************************
-[WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: agama_database_uri.stdout !=
-'mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{
-mysql_port }}/{{ mysql_database }}'
-[WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: agama_database_uri.stdout !=
-'mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{
-mysql_port }}/{{ mysql_database }}'
-ok: [vm2] => (item=None)
 ok: [vm1] => (item=None)
 ok: [vm2] => (item=None)
 ok: [vm1] => (item=None)
-ok: [vm2]
 ok: [vm1]
+ok: [vm2] => (item=None)
+ok: [vm2]
 
 PLAY [dns] *********************************************************************
 
@@ -6560,8 +6431,8 @@ skipping: [vm3] => (item=sillyhat.io)
 
 TASK [bind : copy over config] *************************************************
 ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
 
 TASK [bind : master zone config] ***********************************************
 skipping: [vm1]
@@ -6592,9 +6463,9 @@ ok: [vm3] => (item=['master.db', 'sillyhat.io'])
 ok: [vm3] => (item=['reverse-master.db', '42.168.192'])
 
 TASK [bind : start enable bind9] ***********************************************
+ok: [vm3]
 ok: [vm1]
 ok: [vm2]
-ok: [vm3]
 
 TASK [bind : rndc reload] ******************************************************
 skipping: [vm1]
@@ -6632,24 +6503,24 @@ ok: [vm2] => (item={'cname': 'lb', 'group': 'haproxy'})
 ok: [vm1] => (item={'cname': 'mysql', 'group': 'database'})
 ok: [vm3] => (item={'cname': 'lb', 'group': 'haproxy'})
 ok: [vm2] => (item={'cname': 'mysql', 'group': 'database'})
-ok: [vm1] => (item={'cname': 'ns', 'group': 'bind9'})
 ok: [vm3] => (item={'cname': 'mysql', 'group': 'database'})
+ok: [vm1] => (item={'cname': 'ns', 'group': 'bind9'})
 ok: [vm2] => (item={'cname': 'ns', 'group': 'bind9'})
 ok: [vm1] => (item={'cname': 'prometheus', 'group': 'prometheus'})
 ok: [vm3] => (item={'cname': 'ns', 'group': 'bind9'})
 ok: [vm2] => (item={'cname': 'prometheus', 'group': 'prometheus'})
 ok: [vm1] => (item={'cname': 'web', 'group': 'agama'})
 ok: [vm3] => (item={'cname': 'prometheus', 'group': 'prometheus'})
-ok: [vm2] => (item={'cname': 'web', 'group': 'agama'})
 ok: [vm1] => (item={'cname': 'nginx', 'group': 'nginx'})
+ok: [vm2] => (item={'cname': 'web', 'group': 'agama'})
 ok: [vm3] => (item={'cname': 'web', 'group': 'agama'})
-ok: [vm2] => (item={'cname': 'nginx', 'group': 'nginx'})
 ok: [vm1] => (item={'cname': 'node', 'group': 'all'})
+ok: [vm2] => (item={'cname': 'nginx', 'group': 'nginx'})
 ok: [vm3] => (item={'cname': 'nginx', 'group': 'nginx'})
-ok: [vm2] => (item={'cname': 'node', 'group': 'all'})
 ok: [vm1] => (item={'cname': 'keepalived', 'group': 'keepalived'})
-ok: [vm2] => (item={'cname': 'keepalived', 'group': 'keepalived'})
+ok: [vm2] => (item={'cname': 'node', 'group': 'all'})
 ok: [vm3] => (item={'cname': 'node', 'group': 'all'})
+ok: [vm2] => (item={'cname': 'keepalived', 'group': 'keepalived'})
 ok: [vm3] => (item={'cname': 'keepalived', 'group': 'keepalived'})
 
 TASK [bind : cname records] ****************************************************
@@ -6659,16 +6530,12 @@ groups['dns_master'][0] }}
 skipping: [vm1] => (item=None) 
 skipping: [vm1] => (item=None) 
 skipping: [vm1] => (item=None) 
-skipping: [vm1] => (item=None) 
-[WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: {{ inventory_hostname ==
-groups['dns_master'][0] }}
-skipping: [vm2] => (item=None) 
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: {{ inventory_hostname ==
 groups['dns_master'][0] }}
 skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm1] => (item=None) 
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
@@ -6676,7 +6543,14 @@ skipping: [vm2] => (item=None)
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
+skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm2] => (item=None) 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ inventory_hostname ==
+groups['dns_master'][0] }}
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
@@ -6684,25 +6558,22 @@ skipping: [vm2] => (item=None)
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm2] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm1]
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
 skipping: [vm2]
 ok: [vm3] => (item=None)
 ok: [vm3] => (item=None)
@@ -6728,17 +6599,17 @@ ok: [vm3]
 
 TASK [dns : disable systemd-resolved] ******************************************
 ok: [vm2]
-ok: [vm1]
 ok: [vm3]
+ok: [vm1]
 
 TASK [dns : copy resolv.conf] **************************************************
 ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
 
 TASK [bind_exporter : install prometheus bind9 exporter] ***********************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 ok: [vm3]
 
 TASK [bind_exporter : copy over bind9 exporter defaults file] ******************
@@ -6747,9 +6618,9 @@ ok: [vm2]
 ok: [vm3]
 
 TASK [bind_exporter : start enable prometheus-bind-exporter] *******************
-ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
+ok: [vm1]
 
 PLAY [Prometheus] **************************************************************
 
@@ -6854,39 +6725,39 @@ ok: [vm3]
 PLAY [pinger] ******************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm1]
 ok: [vm3]
+ok: [vm1]
 ok: [vm2]
 
 TASK [pinger : install fping] **************************************************
 ok: [vm1]
-ok: [vm3]
 ok: [vm2]
+ok: [vm3]
 
 TASK [pinger : create pinger user] *********************************************
+ok: [vm3]
 ok: [vm1]
 ok: [vm2]
-ok: [vm3]
 
 TASK [pinger : copy over pinger script file] ***********************************
-ok: [vm1]
 ok: [vm3]
+ok: [vm1]
 ok: [vm2]
 
 TASK [pinger : ensure /etc/pinger folder exists] *******************************
+ok: [vm3]
 ok: [vm2]
 ok: [vm1]
-ok: [vm3]
 
 TASK [pinger : copy over pinger conf] ******************************************
 ok: [vm1]
-ok: [vm3]
 ok: [vm2]
+ok: [vm3]
 
 TASK [pinger : Add pinger service] *********************************************
 ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
 
 TASK [pinger : start enable pinger service] ************************************
 ok: [vm1]
@@ -6916,8 +6787,8 @@ ok: [vm1]
 ok: [vm2]
 
 TASK [keepalived : create keepalived_script user] ******************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [keepalived : copy over scripts] ******************************************
 ok: [vm1]
@@ -6936,8 +6807,8 @@ ok: [vm1]
 ok: [vm2]
 
 TASK [keepalived : copy over keepalived monitoring install script] *************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [keepalived : install keepalived monitoring] ******************************
 skipping: [vm1]
@@ -6952,31 +6823,31 @@ skipping: [vm1]
 skipping: [vm2]
 
 TASK [keepalived : start enable keepalived service] ****************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [keepalived : start enable keepalived exporter service] *******************
 ok: [vm1]
 ok: [vm2]
 
 PLAY RECAP *********************************************************************
-vm1                        : ok=84   changed=0    unreachable=0    failed=0    skipped=12   rescued=0    ignored=0   
-vm2                        : ok=84   changed=0    unreachable=0    failed=0    skipped=12   rescued=0    ignored=0   
-vm3                        : ok=76   changed=0    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+vm1                        : ok=83   changed=0    unreachable=0    failed=0    skipped=12   rescued=0    ignored=0   
+vm2                        : ok=83   changed=0    unreachable=0    failed=0    skipped=12   rescued=0    ignored=0   
+vm3                        : ok=75   changed=0    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
 
 vm3 | CHANGED => {
     "changed": true,
-    "elapsed": 40,
-    "rebooted": true
-}
-vm1 | CHANGED => {
-    "changed": true,
-    "elapsed": 41,
+    "elapsed": 36,
     "rebooted": true
 }
 vm2 | CHANGED => {
     "changed": true,
-    "elapsed": 42,
+    "elapsed": 43,
+    "rebooted": true
+}
+vm1 | CHANGED => {
+    "changed": true,
+    "elapsed": 44,
     "rebooted": true
 }
 [WARNING]: An error occurred while calling
@@ -6987,8 +6858,8 @@ incorrect line lengths
 PLAY [Init] ********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm3]
 ok: [vm2]
+ok: [vm3]
 ok: [vm1]
 
 TASK [init : Update APT cache] *************************************************
@@ -7003,27 +6874,22 @@ ok: [vm1]
 
 TASK [init : set hostname when current one is not correct] *********************
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 skipping: [vm3]
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 skipping: [vm1]
 [WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: 'hattyot-vm-{{ inventory_hostname[-1]
-}}' != hostname.stdout
+delimiters such as {{ }} or {% %}. Found: '{{ inventory_hostname }}' !=
+hostname.stdout
 skipping: [vm2]
-
-TASK [init : add hostname to /etc/hosts] ***************************************
-ok: [vm3]
-ok: [vm1]
-ok: [vm2]
 
 TASK [node_exporter : install prometheus node exporter] ************************
 ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [node_exporter : copy over defaults] **************************************
 ok: [vm3]
@@ -7031,24 +6897,24 @@ ok: [vm2]
 ok: [vm1]
 
 TASK [node_exporter : start enable prometheus-node-exporter] *******************
+ok: [vm2]
 ok: [vm3]
 ok: [vm1]
-ok: [vm2]
 
 TASK [rsyslog : copy over rsyslog telegraf conf] *******************************
 ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [rsyslog : start enable rsyslog] ******************************************
 ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [backup : create backup user] *********************************************
+ok: [vm2]
 ok: [vm3]
 ok: [vm1]
-ok: [vm2]
 
 TASK [backup : ensure restore folder] ******************************************
 ok: [vm3]
@@ -7061,8 +6927,8 @@ ok: [vm2]
 ok: [vm1]
 
 TASK [backup : add known_hosts] ************************************************
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
 ok: [vm1]
 
 TASK [docker : install docker] *************************************************
@@ -7076,9 +6942,9 @@ ok: [vm2]
 ok: [vm1]
 
 TASK [docker : start enable dockerd] *******************************************
+ok: [vm3]
 ok: [vm1]
 ok: [vm2]
-ok: [vm3]
 
 PLAY [nginx] *******************************************************************
 
@@ -7094,13 +6960,13 @@ ok: [vm1]
 
 TASK [nginx : Replace default nginx page] **************************************
 ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [nginx : Set nginx conf] **************************************************
 ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [nginx : Start and enable nginx service] **********************************
 ok: [vm3]
@@ -7108,13 +6974,13 @@ ok: [vm2]
 ok: [vm1]
 
 TASK [nginx_exporter : install prometheus nginx exporter] **********************
-ok: [vm3]
 ok: [vm2]
+ok: [vm3]
 ok: [vm1]
 
 TASK [nginx_exporter : copy over nginx exporter defaults file] *****************
-ok: [vm3]
 ok: [vm2]
+ok: [vm3]
 ok: [vm1]
 
 TASK [nginx_exporter : start enable exporter] **********************************
@@ -7125,36 +6991,36 @@ ok: [vm2]
 PLAY [Database Server] *********************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql : Install mysql-server and python-mysqldb] *************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql : Start and enable service 'mysql'] ********************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql : override conf] ***************************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql : create MySQL database 'agama'] ***********************************
 ok: [vm1]
 ok: [vm2]
 
 TASK [mysql : create MySQL user 'agama'] ***************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql : create MySQL user 'replication'] *********************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [mysql : set replica read only] *******************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [mysql_exporter : copy over my.cnf for mysql exporter] ********************
 ok: [vm1]
@@ -7207,12 +7073,12 @@ ok: [vm2]
 ok: [vm1]
 
 TASK [agama : ensure /opt/agama exists] ****************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [agama : get agama Dockerfile] ********************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [agama : Download agama] **************************************************
 ok: [vm1]
@@ -7227,38 +7093,30 @@ ok: [vm1]
 ok: [vm2]
 
 TASK [agama : deploy agama container] ******************************************
-[WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: agama_database_uri.stdout !=
-'mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{
-mysql_port }}/{{ mysql_database }}'
-[WARNING]: conditional statements should not include jinja2 templating
-delimiters such as {{ }} or {% %}. Found: agama_database_uri.stdout !=
-'mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{
-mysql_port }}/{{ mysql_database }}'
 ok: [vm1] => (item=None)
 ok: [vm2] => (item=None)
-ok: [vm2] => (item=None)
-ok: [vm2]
 ok: [vm1] => (item=None)
 ok: [vm1]
+ok: [vm2] => (item=None)
+ok: [vm2]
 
 PLAY [dns] *********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [vm3]
 ok: [vm1]
 ok: [vm2]
+ok: [vm3]
 
 TASK [bind : Install bind9 and dnspython] **************************************
+ok: [vm2]
 ok: [vm3]
 ok: [vm1]
-ok: [vm2]
 
 TASK [bind : check if domain has changed] **************************************
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: old_domain_name.stdout != '{{
 domain_name }}'
-ok: [vm2]
+ok: [vm1]
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: old_domain_name.stdout != '{{
 domain_name }}'
@@ -7266,7 +7124,7 @@ ok: [vm3]
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: old_domain_name.stdout != '{{
 domain_name }}'
-ok: [vm1]
+ok: [vm2]
 
 TASK [bind : delete old masters] ***********************************************
 skipping: [vm1] => (item=sillyhat.io) 
@@ -7280,9 +7138,9 @@ skipping: [vm3] => (item=42.168.192)
 skipping: [vm3] => (item=sillyhat.io) 
 
 TASK [bind : copy over config] *************************************************
-ok: [vm3]
 ok: [vm1]
 ok: [vm2]
+ok: [vm3]
 
 TASK [bind : master zone config] ***********************************************
 skipping: [vm1]
@@ -7313,9 +7171,9 @@ ok: [vm3] => (item=['master.db', 'sillyhat.io'])
 ok: [vm3] => (item=['reverse-master.db', '42.168.192'])
 
 TASK [bind : start enable bind9] ***********************************************
+ok: [vm2]
 ok: [vm1]
 ok: [vm3]
-ok: [vm2]
 
 TASK [bind : rndc reload] ******************************************************
 skipping: [vm1]
@@ -7344,33 +7202,33 @@ ok: [vm3]
 TASK [bind : get cname data] ***************************************************
 ok: [vm1] => (item={'cname': 'grafana', 'group': 'grafana'})
 ok: [vm2] => (item={'cname': 'grafana', 'group': 'grafana'})
-ok: [vm1] => (item={'cname': 'influxdb', 'group': 'influxdb'})
 ok: [vm3] => (item={'cname': 'grafana', 'group': 'grafana'})
+ok: [vm1] => (item={'cname': 'influxdb', 'group': 'influxdb'})
 ok: [vm2] => (item={'cname': 'influxdb', 'group': 'influxdb'})
-ok: [vm1] => (item={'cname': 'lb', 'group': 'haproxy'})
 ok: [vm3] => (item={'cname': 'influxdb', 'group': 'influxdb'})
+ok: [vm1] => (item={'cname': 'lb', 'group': 'haproxy'})
 ok: [vm2] => (item={'cname': 'lb', 'group': 'haproxy'})
-ok: [vm1] => (item={'cname': 'mysql', 'group': 'database'})
 ok: [vm3] => (item={'cname': 'lb', 'group': 'haproxy'})
+ok: [vm1] => (item={'cname': 'mysql', 'group': 'database'})
 ok: [vm2] => (item={'cname': 'mysql', 'group': 'database'})
 ok: [vm3] => (item={'cname': 'mysql', 'group': 'database'})
 ok: [vm1] => (item={'cname': 'ns', 'group': 'bind9'})
 ok: [vm2] => (item={'cname': 'ns', 'group': 'bind9'})
-ok: [vm1] => (item={'cname': 'prometheus', 'group': 'prometheus'})
 ok: [vm3] => (item={'cname': 'ns', 'group': 'bind9'})
 ok: [vm2] => (item={'cname': 'prometheus', 'group': 'prometheus'})
-ok: [vm1] => (item={'cname': 'web', 'group': 'agama'})
 ok: [vm3] => (item={'cname': 'prometheus', 'group': 'prometheus'})
+ok: [vm1] => (item={'cname': 'prometheus', 'group': 'prometheus'})
 ok: [vm2] => (item={'cname': 'web', 'group': 'agama'})
-ok: [vm1] => (item={'cname': 'nginx', 'group': 'nginx'})
+ok: [vm1] => (item={'cname': 'web', 'group': 'agama'})
 ok: [vm3] => (item={'cname': 'web', 'group': 'agama'})
 ok: [vm2] => (item={'cname': 'nginx', 'group': 'nginx'})
-ok: [vm1] => (item={'cname': 'node', 'group': 'all'})
+ok: [vm1] => (item={'cname': 'nginx', 'group': 'nginx'})
 ok: [vm3] => (item={'cname': 'nginx', 'group': 'nginx'})
-ok: [vm1] => (item={'cname': 'keepalived', 'group': 'keepalived'})
 ok: [vm2] => (item={'cname': 'node', 'group': 'all'})
-ok: [vm2] => (item={'cname': 'keepalived', 'group': 'keepalived'})
+ok: [vm1] => (item={'cname': 'node', 'group': 'all'})
 ok: [vm3] => (item={'cname': 'node', 'group': 'all'})
+ok: [vm2] => (item={'cname': 'keepalived', 'group': 'keepalived'})
+ok: [vm1] => (item={'cname': 'keepalived', 'group': 'keepalived'})
 ok: [vm3] => (item={'cname': 'keepalived', 'group': 'keepalived'})
 
 TASK [bind : cname records] ****************************************************
@@ -7384,6 +7242,18 @@ skipping: [vm1] => (item=None)
 delimiters such as {{ }} or {% %}. Found: {{ inventory_hostname ==
 groups['dns_master'][0] }}
 skipping: [vm1] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm2] => (item=None) 
+skipping: [vm1] => (item=None) 
+skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 [WARNING]: conditional statements should not include jinja2 templating
 delimiters such as {{ }} or {% %}. Found: {{ inventory_hostname ==
@@ -7406,19 +7276,7 @@ skipping: [vm1] => (item=None)
 skipping: [vm2] => (item=None) 
 skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
-skipping: [vm2] => (item=None) 
-skipping: [vm1] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm2] => (item=None) 
 skipping: [vm2] => (item=None) 
@@ -7448,24 +7306,24 @@ ok: [vm3] => (item=None)
 ok: [vm3]
 
 TASK [dns : disable systemd-resolved] ******************************************
+ok: [vm3]
 ok: [vm1]
 ok: [vm2]
-ok: [vm3]
 
 TASK [dns : copy resolv.conf] **************************************************
-ok: [vm3]
 ok: [vm2]
 ok: [vm1]
+ok: [vm3]
 
 TASK [bind_exporter : install prometheus bind9 exporter] ***********************
-ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
+ok: [vm3]
 
 TASK [bind_exporter : copy over bind9 exporter defaults file] ******************
-ok: [vm3]
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
+ok: [vm3]
 
 TASK [bind_exporter : start enable prometheus-bind-exporter] *******************
 ok: [vm3]
@@ -7576,43 +7434,43 @@ PLAY [pinger] ******************************************************************
 
 TASK [Gathering Facts] *********************************************************
 ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [pinger : install fping] **************************************************
+ok: [vm1]
 ok: [vm3]
 ok: [vm2]
-ok: [vm1]
 
 TASK [pinger : create pinger user] *********************************************
+ok: [vm3]
 ok: [vm1]
 ok: [vm2]
-ok: [vm3]
 
 TASK [pinger : copy over pinger script file] ***********************************
-ok: [vm1]
-ok: [vm2]
 ok: [vm3]
+ok: [vm2]
+ok: [vm1]
 
 TASK [pinger : ensure /etc/pinger folder exists] *******************************
-ok: [vm1]
 ok: [vm3]
 ok: [vm2]
+ok: [vm1]
 
 TASK [pinger : copy over pinger conf] ******************************************
-ok: [vm3]
 ok: [vm1]
 ok: [vm2]
+ok: [vm3]
 
 TASK [pinger : Add pinger service] *********************************************
 ok: [vm1]
-ok: [vm3]
 ok: [vm2]
+ok: [vm3]
 
 TASK [pinger : start enable pinger service] ************************************
-ok: [vm3]
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
+ok: [vm3]
 
 PLAY [loadbalancer] ************************************************************
 
@@ -7621,28 +7479,28 @@ ok: [vm1]
 ok: [vm2]
 
 TASK [haproxy : install haproxy] ***********************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [haproxy : set haproxy conf] **********************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [haproxy : start enable haproxy] ******************************************
 ok: [vm1]
 ok: [vm2]
 
 TASK [keepalived : ensure /etc/keepalived exists] ******************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [keepalived : create keepalived_script user] ******************************
 ok: [vm1]
 ok: [vm2]
 
 TASK [keepalived : copy over scripts] ******************************************
-ok: [vm1]
 ok: [vm2]
+ok: [vm1]
 
 TASK [keepalived : copy over keepalived conf] **********************************
 ok: [vm1]
@@ -7665,8 +7523,8 @@ skipping: [vm1]
 skipping: [vm2]
 
 TASK [keepalived : Add keepalived service] *************************************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 TASK [keepalived : reload daemon] **********************************************
 skipping: [vm1]
@@ -7677,12 +7535,12 @@ ok: [vm2]
 ok: [vm1]
 
 TASK [keepalived : start enable keepalived exporter service] *******************
-ok: [vm2]
 ok: [vm1]
+ok: [vm2]
 
 PLAY RECAP *********************************************************************
-vm1                        : ok=84   changed=0    unreachable=0    failed=0    skipped=12   rescued=0    ignored=0   
-vm2                        : ok=84   changed=0    unreachable=0    failed=0    skipped=12   rescued=0    ignored=0   
-vm3                        : ok=76   changed=0    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+vm1                        : ok=83   changed=0    unreachable=0    failed=0    skipped=12   rescued=0    ignored=0   
+vm2                        : ok=83   changed=0    unreachable=0    failed=0    skipped=12   rescued=0    ignored=0   
+vm3                        : ok=75   changed=0    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
 
-Mon Dec 19 18:15:36 EET 2022
+Tue Dec 20 14:31:13 EET 2022
