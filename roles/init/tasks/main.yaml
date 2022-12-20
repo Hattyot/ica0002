@@ -13,9 +13,3 @@
   shell:
     cmd: "hostnamectl set-hostname {{ inventory_hostname }}"
   when: "'{{ inventory_hostname }}' != hostname.stdout"
-
-- name: add hostname to /etc/hosts
-  become: true
-  blockinfile:
-    path: /etc/hosts
-    block: "localhost {{ inventory_hostname }}"

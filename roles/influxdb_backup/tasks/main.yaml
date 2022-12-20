@@ -19,4 +19,3 @@
   template:
     src: influxdb-backup-cron
     dest: /etc/cron.d/influxdb-backup
-  when: inventory_hostname in groups['influxdb']

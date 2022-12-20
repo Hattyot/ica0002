@@ -39,8 +39,8 @@
     state: started
     container_default_behavior: no_defaults
     env:
-      AGAMA_DATABASE_URI: mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{ mysql_port }}/{{ mysql_database }}
-  when: "agama_database_uri.stdout != 'mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}:{{ mysql_port }}/{{ mysql_database }}'"
+      AGAMA_DATABASE_URI: "{{ mysql_uri }}"
+  when: "agama_database_uri.stdout != mysql_uri"
   loop:
     - 0
     - 1

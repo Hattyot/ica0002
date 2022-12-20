@@ -27,6 +27,8 @@ mysql_password: !vault |
           6138666534336663330a613333353534616335633962323434346464326132363636363134353065
           6564
 
+mysql_uri: "mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ hostvars[mysql_host]['ansible_default_ipv4']['address'] }}:{{ mysql_port }}/{{ mysql_database }}"
+
 node_exporter_port: 9100
 prometheus_port: 9090
 

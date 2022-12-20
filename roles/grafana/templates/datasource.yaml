@@ -10,12 +10,12 @@ datasources:
   - name: influxdb:latency
     type: influxdb
     access: proxy
-    url: "http://influxdb:{{ influxdb_port }}"
+    url: "http://influxdb/influxdb"
     editable: true
     database: latency
   - name: influxdb:telegraf
     type: influxdb
     access: proxy
-    url: "http://influxdb:{{ influxdb_port }}"
+    url: "http://influxdb/influxdb"
     editable: true
     database: telegraf

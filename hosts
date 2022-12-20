@@ -1,7 +1,7 @@
 ### BEGIN HOSTS
-vm1 ansible_port=15522
-vm2 ansible_port=9422
-vm3 ansible_port=10722
+vm1 ansible_port=13122
+vm2 ansible_port=5322
+vm3 ansible_port=12722
 ### END HOSTS
 
 [dns_master]

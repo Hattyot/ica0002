@@ -12,12 +12,8 @@ server {
 	server_name _;
 
     location / {
-        {% if inventory_hostname in groups['agama'] %}
-            proxy_pass http://localhost:{{ agama_port }};
-        {% else %}
-            root /var/www/html;
-            try_files $uri $uri/ =404;
-        {% endif %}
+        root /var/www/html;
+        try_files $uri $uri/ =404;
     }
 
     {% if inventory_hostname in groups['prometheus'] %}
@@ -76,6 +72,10 @@ server {
     {% endif %}
 
     {% if inventory_hostname in groups['influxdb'] %}
+    location /influxdb {
+        proxy_pass http://localhost:{{ influxdb_port }};
+    }
+
     location /influxdb-metrics {
         proxy_pass http://localhost:{{ influxdb_metrics_port }}/metrics;
     }

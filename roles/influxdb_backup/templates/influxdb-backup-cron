@@ -1,7 +1,7 @@
-0 2 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -db telegraf /home/backup/influxdb/telegraf >/dev/null 2>&1
-0 2 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -db latency /home/backup/influxdb/latency >/dev/null 2>&1
+0 2 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -db telegraf /home/backup/influxdb/telegraf
+0 2 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -db latency /home/backup/influxdb/latency
 
-15 2 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/influxdb/telegraf >/dev/null 2>&1
-15 2 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/influxdb/latency >/dev/null 2>&1
-20 2 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/influxdb/telegraf >/dev/null 2>&1
-20 2 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/influxdb/latency >/dev/null 2>&1
+15 2 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/influxdb/telegraf
+15 2 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/influxdb/latency
+20 2 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/influxdb/telegraf
+20 2 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://{{ backup_hostname }}@backup//home/{{ backup_hostname }}/influxdb/latency
